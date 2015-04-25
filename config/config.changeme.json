@@ -1,0 +1,10 @@
+[
+  {
+    "name": "local-qt",
+    "coin": "xpy",
+    "server": "localhost",
+    "rpcuser": "bitcoinrpc",
+    "rpcpassword": "randomPasswordHere",
+    "rpcport": "8999"
+  }
+]

@@ -1,0 +1,12 @@
+<table class="table table-hover">
+    <tr>
+        <th>Label</th>
+        <th>Address(es)</th>
+    </tr>
+    <tr ng-repeat="acct in accounts">
+        <td>acct.label</td>
+        <td>
+            <span ng-repeat="add in acct.addresses">add.address</span><br />
+        </td>
+    </tr>
+</table>

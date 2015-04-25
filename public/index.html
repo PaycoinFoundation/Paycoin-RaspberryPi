@@ -1,0 +1,155 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Paycoin Wallet - rPi Edition</title>
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.css" />
+    <!--<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />-->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.css" />
+    <link rel="stylesheet" href="bower_components/morrisjs/morris.css" />
+    <link rel="stylesheet" href="bower_components/datatables-responsive/css/dataTables.responsive.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-social/bootstrap-social.css" />
+    <link rel="stylesheet" href="bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="PaycoinRpiWallet" ng-controller="MainCtrl">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Paycoin Wallet - RaspberryPi Edition</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a ui-sref-active="active" ui-sref="dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a ui-sref-active="active" ui-sref="send"><i class="fa fa-arrow-circle-right fa-fw"></i> Send Coins</a>
+                        </li>
+                        <li>
+                            <a ui-sref-active="active" ui-sref="receive"><i class="fa fa-arrow-circle-down fa-fw"></i> Receive Coins</a>
+                        </li>
+                        <li>
+                            <a ui-sref-active="active" ui-sref="transactions"><i class="fa fa-list-ul fa-fw"></i> Transactions</a>
+                        </li>
+                        <li>
+                            <a ui-sref-active="active" ui-sref="minting"><i class="fa fa-diamond"></i> Minting</a>
+                        </li>
+                        <li>
+                            <a ui-sref-active="active" ui-sref="addressbook"><i class="fa fa-book fa-fw"></i> Address Book</a>
+                        </li>
+                        <li>
+                            <a ui-sref-active="active" ui-sref="options"><i class="fa fa-cogs fa-fw"></i> Options</a>
+                        </li>
+                        <li>
+                            <a ui-sref-active="active" ui-sref="about"><i class="fa fa-question-circle fa-fw"></i> About</a>
+                        </li>
+                        <li>
+                            <a ui-sref-active="active" ui-sref="contribute"><i class="fa fa-share-square fa-fw"></i> Contribute</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{$root.app.curTitle}}</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div ui-view></div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/ui-utils/ui-utils.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/datatables/media/js/jquery.dataTables.js"></script>
+    <script src="bower_components/flot/jquery.flot.js"></script>
+    <script src="bower_components/holderjs/holder.js"></script>
+    <script src="bower_components/metisMenu/dist/metisMenu.js"></script>
+    <script src="bower_components/raphael/raphael.js"></script>
+    <script src="bower_components/mocha/mocha.js"></script>
+    <script src="bower_components/morrisjs/morris.js"></script>
+    <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
+    <script src="bower_components/flot.tooltip/js/jquery.flot.tooltip.js"></script>
+    <script src="bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/AboutCtrl.js"></script>
+        <script src="scripts/controllers/AddressbookCtrl.js"></script>
+        <script src="scripts/controllers/ContributeCtrl.js"></script>
+        <script src="scripts/controllers/DashboardCtrl.js"></script>
+        <script src="scripts/controllers/MintingCtrl.js"></script>
+        <script src="scripts/controllers/OptionsCtrl.js"></script>
+        <script src="scripts/controllers/PeerInfoCtrl.js"></script>
+        <script src="scripts/controllers/ReceiveCtrl.js"></script>
+        <script src="scripts/controllers/SendCtrl.js"></script>
+        <script src="scripts/controllers/TransactionsCtrl.js"></script>
+        <script src="scripts/services/Paycoind.js"></script>
+        <script src="scripts/filter/fromNow.js"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="../bower_components/raphael/raphael-min.js"></script>
+    <script src="../bower_components/morrisjs/morris.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <!-- endbuild -->
+
+
+</body>
+</html>
