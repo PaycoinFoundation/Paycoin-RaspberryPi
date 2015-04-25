@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Send
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="payTo" class="col-sm-2 control-label">Pay To:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="payTo" placeholder="Enter a Paycoin address">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="label" class="col-sm-2 control-label">Label: </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="label" placeholder="Enter a label for this address to add it to your address book">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount" class="col-sm-2 control-label">Amount: </label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="amount">
+                                <div class="input-group-addon">XPY</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-info alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <em>TODO: Allow sending to multiple addresses in one transaction</em><br />
+    <em>TODO: Use the ! symbol to automatically fill in your account balance</em>
+</div>
+
