@@ -4,13 +4,30 @@ Raspberry PI Paycoin Web Wallet
 ## Prerequisites
 
 ### Node.JS
-To install Node.JS run the following commands for `Ubuntu`
 
+#### On the rPi
+To install Node.JS on the Raspberry Pi run the following commands for `Ubuntu`
+
+Download a prebuilt ARM version of node.js by running this command:
+ 
+`wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz`
+
+then run:
+
+'cd /usr/local && sudo tar --strip-components 1 -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz`
+
+You will likely be prompted for a password because of sudo.
+
+#### On Linux (ubuntu)
+
+Add the PPA
 `sudo add-apt-repository ppa:chris-lea/node.js`
 
+Update download servers
 `sudo apt-get update`
 
-`sudo apt-get install <package name>`
+Install Node.js
+`sudo apt-get install nodejs`
 
 ## Setup
 
