@@ -1,8 +1,8 @@
 angular.module('PaycoinRpiWallet')
-    .factory('paycoind', function($http, $q){
+    .factory('paycoind', function($http, $q, $rootScope){
 
         var service = {
-            serverIndex: 0,
+            serverIndex: $rootScope.app.serverIndex,
             setServerIndex: setServerIndex,
             getInfo: getInfo,
             listTransactions: listTransactions,
