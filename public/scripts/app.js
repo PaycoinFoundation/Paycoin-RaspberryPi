@@ -65,36 +65,36 @@ angular.module('PaycoinRpiWallet', [
                 templateUrl: 'views/contribute.html'
             })
   })
-    .controller('MainCtrl', function ($scope, $rootScope) {
-        $rootScope.app = {
-            name: 'Watch Tower',
-            version: '2.0.0(04232015)',
-            curTitle: '',
-            // for chart colors
-            color: {
-                primary: '#7266ba',
-                info:    '#23b7e5',
-                success: '#27c24c',
-                warning: '#fad733',
-                danger:  '#f05050',
-                light:   '#e8eff0',
-                dark:    '#3a3f51',
-                black:   '#1c2b36'
-            },
-            settings: {
-            },
-            account: {
-                xpy: {
-                    total: null,
-                    hot: null,
-                    hotstake: null,
-                    vault: null,
-                    stake: null
-                },
-                transactions: null
-            },
-            serverIndex: 0
+    .controller('MainCtrl', function ($scope, $rootScope, $localStorage, paycoind) {
+        paycoind.getServerInfo()
+            .then(function(response){
+                $localStorage.serverList = response;
+                $scope.serverList = response;
+            });
+
+        $scope.changeServer = function(index){
+            console.log(index);
+            paycoind.setServerIndex(index);
+            paycoind.getInfo()
+                .then(function (response) {
+                    $rootScope.getInfo = response;
+                }
+            );
+            paycoind.listTransactions()
+                .then(function(response){
+                    $rootScope.listTransactions = response;
+                });
         };
 
+        paycoind.setServerIndex(0);
+
+        $localStorage.app = $rootScope.app;
     }
-);
+)
+    .run(function($rootScope, paycoind){
+        $rootScope.app = {
+            name: 'RaspberryPi Wallet',
+            version: '0.1.0 (04262015)',
+            curTitle: ''
+        };
+    });

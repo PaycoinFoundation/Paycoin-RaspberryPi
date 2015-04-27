@@ -44,6 +44,59 @@
                 <a class="navbar-brand" href="index.html">Paycoin Wallet - RaspberryPi Edition</a>
             </div>
             <!-- /.navbar-header -->
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                        <i class="fa fa-list-ul fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user" style="padding:10px; width:225px">
+                        <li>
+                            <strong>Balance:</strong> {{getInfo.balance | number:6}}
+                        </li>
+                        <li>
+                            <strong>New Mint:</strong> {{getInfo.newmint | number:6}}
+                        </li>
+                        <li>
+                            <strong>Stake:</strong> {{getInfo.stake | number:6}}
+                        </li>
+                        <li>
+                            <strong>Wallet Version:</strong> {{getInfo.version }}
+                        </li>
+                        <li>
+                            <strong>Connections:</strong> {{getInfo.connections}}
+                        </li>
+                        <li>
+                            <strong>IP:</strong> {{getInfo.ip }}
+                        </li>
+                        <li>
+                            <strong>Block Height:</strong> {{getInfo.blocks | number:0}}
+                        </li>
+                        <li>
+                            <strong>Money Supply:</strong> {{getInfo.moneysupply | number:6}}
+                        </li>
+                        <li>
+                            <strong>Difficulty:</strong> {{getInfo.difficulty | number:8}}
+                        </li>
+                        <li>
+                            <strong>Locked Until:</strong> {{getInfo.unlocked_until * 1000 | fromNow}}
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                        <i class="fa fa-list-ul fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user" style="padding:10px; width:225px">
+                        <li ng-repeat="server in serverList">
+                            <a ng-click="changeServer($index)">{{server.name}} - {{server.coin}}</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
@@ -75,6 +128,9 @@
                         <li>
                             <a ui-sref-active="active" ui-sref="contribute"><i class="fa fa-share-square fa-fw"></i> Contribute</a>
                         </li>
+                        <li style="padding:15px">
+                            Version: {{app.version}}
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -96,7 +152,6 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
     <!-- build:js(.) scripts/vendor.js -->

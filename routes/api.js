@@ -2,29 +2,31 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var fs = require('fs');
-var config = require('../config/config.json');
+var configJSON = require('../config/config.json');
+var addressesJSON = require('../data/addresses.json');
+var transactionsJSON = require('../data/transactions.json');
 //var config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
 
 var options = {};
 
 router.route('/getserverlist')
     .post(function(req, res){
-        res.send(config);
+        res.send(configJSON);
     });
 
 router.route('/addserver')
     .post(function(req,res){
         if(validServerConfigObject(req.body)) {
-            config.push(req.body);
-            fs.writeFile('config/config.json', JSON.stringify(config), function(err){
+            configJSON.push(req.body);
+            fs.writeFile('config/config.json', JSON.stringify(configJSON, null, 4), function(err){
                 if (err) return console.log(err);
-                res.send('Success')
+                res.send({
+                    success: true
+                })
             });
         } else {
             res.send('Invalid ServerConfigObject');
         }
-
-
     });
 
 router.route('/getinfo')
@@ -39,11 +41,12 @@ router.route('/getinfo')
 router.route('/listtransactions')
     .post(function(req,res){
         setServer(req.body.index);
-       options.body.method = 'listtransactions';
+        options.body.method = 'listtransactions';
         request(options, function(err,response,body){
             res.send(body);
         })
-    });
+    }
+);
 
 router.route('/listaccounts')
     .post(function(req,res){
@@ -58,15 +61,16 @@ function setServer(index){
     if(!index){
         index = 0;
     }
+
     options = {
-        url: 'http://'+config[index].server+':'+config[index].rpcport
+        url: 'http://'+configJSON[index].server+':'+configJSON[index].rpcport
         , method: 'POST'
         , headers: {
             'Content-Type': 'application/json'
         }
         , 'auth': {
-            'user': config[index].rpcuser,
-            'pass': config[index].rpcpassword,
+            'user': configJSON[index].rpcuser,
+            'pass': configJSON[index].rpcpassword,
             'sendImmediately': false
         }
         , body: {
