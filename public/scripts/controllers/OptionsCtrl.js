@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('PaycoinRpiWallet')
-    .controller('TransactionsCtrl', function ($scope, $rootScope) {
-        $rootScope.app.curTitle = "Transactions";
+    .controller('OptionsCtrl', function ($scope, $rootScope, paycoind) {
+        $rootScope.app.curTitle = "Options";
+
+
     }
 );
