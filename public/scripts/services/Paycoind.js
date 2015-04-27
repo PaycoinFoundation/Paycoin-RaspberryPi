@@ -2,22 +2,21 @@ angular.module('PaycoinRpiWallet')
     .factory('paycoind', function($http, $q, $rootScope){
 
         var service = {
-            serverIndex: $rootScope.app.serverIndex,
+            serverIndex: -1,
             setServerIndex: setServerIndex,
             getInfo: getInfo,
             listTransactions: listTransactions,
-            listAccounts: listAccounts
+            listAccounts: listAccounts,
+            getServerInfo: getServerInfo
         };
 
-        var payload = {'index':service.serverIndex};
-
         function setServerIndex(index){
-            service.serverIndex = index;
+            this.serverIndex = index;
         }
 
         function getInfo(){
             var deferred = $q.defer();
-            $http.post('/api/getinfo', payload)
+            $http.post('/api/getinfo',  {'index':this.serverIndex})
                 .then(function(response){
                     deferred.resolve(response.data.result);
                 });
@@ -26,7 +25,7 @@ angular.module('PaycoinRpiWallet')
 
         function listTransactions(){
             var deferred = $q.defer();
-            $http.post('/api/listtransactions', payload)
+            $http.post('/api/listtransactions',  {'index':this.serverIndex})
                 .then(function(response){
                     deferred.resolve(response.data.result);
                 });
@@ -36,9 +35,19 @@ angular.module('PaycoinRpiWallet')
 
         function listAccounts(){
             var deferred = $q.defer();
-            $http.post('/api/listaccounts', payload)
+            $http.post('/api/listaccounts',  {'index':this.serverIndex})
                 .then(function(response){
                     deferred.resolve(response.data.result);
+                });
+
+            return deferred.promise;
+        }
+
+        function getServerInfo(){
+            var deferred = $q.defer();
+            $http.post('/api/getserverlist',  {'index':this.serverIndex})
+                .then(function(response){
+                    deferred.resolve(response.data);
                 });
 
             return deferred.promise;
