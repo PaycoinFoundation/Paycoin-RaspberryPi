@@ -1,23 +1,14 @@
 'use strict';
 
 angular.module('PaycoinRpiWallet')
-    .controller('ReceiveCtrl', function ($scope, $rootScope, $http) {
+    .controller('ReceiveCtrl', function ($scope, $rootScope, $localStorage, paycoind) {
         $rootScope.app.curTitle = "Receive";
 
-        $http.get('/api/listaccounts')
+        paycoind.listAccounts()
             .then(function(response){
                 console.log(response);
-                $scope.getInfo = response.data.result;
-
-
-                $http.get('/api/listTransactions')
-                    .then(function(response){
-                        console.log(response);
-                        $rootScope.listTransactions = response.data.result;
-                    })
-
-            });
-
-
+                $scope.accounts = response;
+                $localStorage.accounts = response;
+            })
     }
 );

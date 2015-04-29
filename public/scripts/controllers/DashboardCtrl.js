@@ -5,7 +5,7 @@ angular.module('PaycoinRpiWallet')
         $rootScope.app.curTitle = "Dashboard";
 
         $scope.refreshInfo = function() {
-
+            console.log('refreshInfo()');
             paycoind.getInfo()
                 .then(function (response) {
                     $rootScope.getInfo = response;

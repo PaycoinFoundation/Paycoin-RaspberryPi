@@ -8,14 +8,14 @@ angular.module('PaycoinRpiWallet')
         if(!$localStorage.listAccounts){
             $http.post('/api/listaccounts', payload)
                 .then(function(response){
-                    console.log(response);
+                    //console.log(response);
                     $localStorage.listAccounts = response.data.result;
                 })
         }
 
         $http.post('/api/listtransactions', payload)
             .then(function(response){
-                console.log(response);
+                //console.log(response);
                 $rootScope.listTransactions = response.data.result;
             })
     }

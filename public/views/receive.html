@@ -4,9 +4,9 @@
         <th>Address(es)</th>
     </tr>
     <tr ng-repeat="acct in accounts">
-        <td>acct.label</td>
+        <td>{{acct.name}}</td>
         <td>
-            <span ng-repeat="add in acct.addresses">add.address</span><br />
+            <span ng-repeat="add in acct.addresses">{{add}}<br /></span>
         </td>
     </tr>
 </table>

@@ -5,6 +5,10 @@ var fs = require('fs');
 var configJSON = require('../config/config.json');
 var addressesJSON = require('../data/addresses.json');
 var transactionsJSON = require('../data/transactions.json');
+
+var bitcoin = require('bitcoin');
+var client;
+
 //var config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
 
 var options = {};
@@ -32,29 +36,57 @@ router.route('/addserver')
 router.route('/getinfo')
 	.post(function(req, res){
         setServer(req.body.index);
-        options.body.method = 'getinfo';
-        request(options, function(err, response, body) {
-            res.send(body);
-        });
+        client.getInfo(function(err,info){
+            if(info)
+                res.send(info);
+        })
 	});
 
 router.route('/listtransactions')
     .post(function(req,res){
         setServer(req.body.index);
-        options.body.method = 'listtransactions';
-        request(options, function(err,response,body){
-            res.send(body);
-        })
+
+        client.listTransactions(function(err,transactions){
+            if(transactions)
+                res.send(transactions);
+            else
+                res.send(err);
+        });
     }
 );
 
+router.route('/getaddressesbyaccount')
+    .post(function(req,res){
+        client.getAddressesByAccount(req.body.account, function(err,addresses){
+            res.send(addresses);
+        });
+    });
+
 router.route('/listaccounts')
     .post(function(req,res){
-        options.body.method = 'listaccounts';
         setServer(req.body.index);
-        request(options, function(err,response,body){
-            res.send(body);
-        })
+
+        client.listAccounts(function(err,accts){
+            if(err) {
+                res.send(err);
+            }
+
+            var accounts = [];
+
+            for (var k in accts) {
+                var temp = {
+                    name: '',
+                    balance: 0,
+                    addresses: []
+                };
+
+                temp.name = k;
+                temp.balance = accts[k];
+
+                accounts.push(temp);
+            }
+            res.send(accounts);
+        });
     });
 
 function setServer(index){
@@ -62,22 +94,13 @@ function setServer(index){
         index = 0;
     }
 
-    options = {
-        url: 'http://'+configJSON[index].server+':'+configJSON[index].rpcport
-        , method: 'POST'
-        , headers: {
-            'Content-Type': 'application/json'
-        }
-        , 'auth': {
-            'user': configJSON[index].rpcuser,
-            'pass': configJSON[index].rpcpassword,
-            'sendImmediately': false
-        }
-        , body: {
-            "method":""
-        }
-        , json: true
-    };
+    client = new bitcoin.Client({
+        host: configJSON[index].server,
+        port: configJSON[index].rpcport,
+        user: configJSON[index].rpcuser,
+        pass: configJSON[index].rpcpassword,
+        timeout: 30000
+    });
 }
 
 function validServerConfigObject(obj){

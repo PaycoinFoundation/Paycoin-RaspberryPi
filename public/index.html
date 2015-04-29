@@ -47,7 +47,7 @@
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
-                        <i class="fa fa-list-ul fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-info-circle fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user" style="padding:10px; width:225px">
                         <li>
@@ -86,9 +86,9 @@
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
-                        <i class="fa fa-list-ul fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-server fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-user" style="padding:10px; width:225px">
+                    <ul class="dropdown-menu" style="padding:10px; width:225px">
                         <li ng-repeat="server in serverList">
                             <a ng-click="changeServer($index)">{{server.name}} - {{server.coin}}</a>
                         </li>
@@ -127,6 +127,9 @@
                         </li>
                         <li>
                             <a ui-sref-active="active" ui-sref="contribute"><i class="fa fa-share-square fa-fw"></i> Contribute</a>
+                        </li>
+                        <li style="padding:15px">
+                            Server: <strong>{{chosenServer.name}}</strong>
                         </li>
                         <li style="padding:15px">
                             Version: {{app.version}}

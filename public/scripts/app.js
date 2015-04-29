@@ -75,6 +75,8 @@ angular.module('PaycoinRpiWallet', [
         $scope.changeServer = function(index){
             console.log(index);
             paycoind.setServerIndex(index);
+            $localStorage.chosenServer = $localStorage.serverList[index];
+            $scope.chosenServer = $localStorage.serverList[index];
             paycoind.getInfo()
                 .then(function (response) {
                     $rootScope.getInfo = response;
@@ -87,6 +89,9 @@ angular.module('PaycoinRpiWallet', [
         };
 
         paycoind.setServerIndex(0);
+
+        $localStorage.chosenServer = $localStorage.serverList[0];
+        $scope.chosenServer = $localStorage.serverList[0];
 
         $localStorage.app = $rootScope.app;
     }
