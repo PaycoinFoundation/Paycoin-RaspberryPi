@@ -129,7 +129,16 @@
                             <a ui-sref-active="active" ui-sref="contribute"><i class="fa fa-share-square fa-fw"></i> Contribute</a>
                         </li>
                         <li style="padding:15px">
-                            Server: <strong>{{chosenServer.name}}</strong>
+                            <!--Server:<select class="form-control" ng-model="selectedServer">-->
+                                        <!--<option ng-repeat="server in serverList" value="{{$index}}">{{server.name}}</option>-->
+                                    <!--</select>-->
+
+                        <!--<li ng-repeat="server in serverList">-->
+                        <!--<a ng-click="changeServer($index)">{{server.name}} - {{server.coin}}</a>-->
+                    <!--</li> -->
+
+
+                            <strong>{{chosenServer.name}}</strong>
                         </li>
                         <li style="padding:15px">
                             Version: {{app.version}}

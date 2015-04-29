@@ -113,7 +113,7 @@
                 <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
                     <li ng-repeat="transaction in listTransactions | orderBy:'time':true" class="list-group-item clearfix b-l-3x {{ transaction.class }}">
                         <a class="avatar thumb pull-left m-r">
-                            <img src="/images/{{transaction.category}}.png">
+                            <img ng-src="/images/{{transaction.category}}.png">
                         </a>
                         <div class="pull-right text-sm text-muted">
                             <span class="hidden-xs pull-right">{{ transaction.time * 1000 | fromNow }}</span><br>
