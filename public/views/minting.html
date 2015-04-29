@@ -20,10 +20,15 @@
                 </div>
                 <div>
                     <div class="text-ellipsis m-t-xs">
-                        10-min Probability: {{mint['minting-probability-10min'] * 100 | number:2}}% |
-                        24h Probability: {{mint['minting-probability-24h'] * 100 | number:2}}% |
-                        30d Probability: {{mint['minting-probability-30d'] * 100 | number:2}}% |
-                        90d Probability: {{mint['minting-probability-90d'] * 100 | number:2}}%
+                        10-min Probability: <strong>{{mint['minting-probability-10min'] * 100 | number:2}}%</strong>  |
+                        24h Probability: <strong>{{mint['minting-probability-24h'] * 100 | number:2}}%</strong> |
+                        30d Probability: <strong>{{mint['minting-probability-30d'] * 100 | number:2}}%</strong> |
+                        90d Probability: <strong>{{mint['minting-probability-90d'] * 100 | number:2}}%</strong>
+                    </div>
+                    <div class="text-ellipsis m-t-xs">
+                        Age in Day: <strong>{{ mint['age-in-day']}}</strong> |
+                        Coin Day Weight: <strong>{{ mint['coin-day-weight'] }}</strong>
+                        Attempts: <strong>{{ mint['attempts'] }}</strong>
                     </div>
                 </div>
             </div>
