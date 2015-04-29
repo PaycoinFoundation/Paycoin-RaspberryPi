@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var request = require('request');
 var fs = require('fs');
 var configJSON = require('../config/config.json');
 var addressesJSON = require('../data/addresses.json');
