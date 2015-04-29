@@ -45,11 +45,15 @@ router.route('/listtransactions')
     .post(function(req,res){
         setServer(req.body.index);
 
-        client.listTransactions(function(err,transactions){
+        var num = req.body.qty || 1000;
+
+        client.listTransactions(req.body.account, num, function(err,transactions){
             if(transactions)
                 res.send(transactions);
-            else
+            else {
+                console.log(err);
                 res.send(err);
+            }
         });
     }
 );

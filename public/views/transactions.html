@@ -3,41 +3,44 @@
     <div class="col-lg-12">
         <div class="panel panel-success">
             <div class="panel-heading">
-                Recent Transactions
+                All Transactions
             </div>
             <div class="panel-body">
                 <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
-                    <li ng-repeat="transaction in listTransactions | orderBy:'time':true" class="list-group-item clearfix b-l-3x {{ transaction.class }}">
+                    <li ng-repeat="trans in transactions | orderBy:'time':true" class="list-group-item clearfix b-l-3x {{ trans.class }}">
                         <a class="avatar thumb pull-left m-r">
-                            <img src="/images/{{transaction.category}}.png">
+                            <img src="/images/{{trans.category}}.png">
                         </a>
                         <div class="pull-right text-sm text-muted">
-                            <span class="hidden-xs pull-right">{{ transaction.time * 1000 | fromNow }}</span><br>
-                            <span class="hidden-xs pull-right">{{ transaction.time * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}</span><br>
-                            <span><h6 class="pull-right visible-lg-block visible-md-block">txid: {{ transaction.txid }}</h6></span>
+                            <span class="hidden-xs pull-right">{{ trans.time * 1000 | fromNow }}</span><br>
+                            <span class="hidden-xs pull-right">{{ trans.time * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}</span><br>
+                            <span><h6 class="pull-right visible-lg-block visible-md-block">txid: {{ trans.txid }}</h6></span>
                         </div>
-                        <div class="clear" ng-if="transaction.category == 'send'">
-                            <div><span style="color:#0099cc"><b>{{transaction.amount}} Paycoin</b></span><span class="label bg-light m-l-sm" style="background-color: #0099cc; color:#FFFFFF">{{transaction.label}}</span></div>
+                        <div class="clear" ng-if="trans.category == 'send'">
+                            <div><span style="color:#0099cc"><b>{{trans.amount}} Paycoin</b></span><span class="label bg-light m-l-sm" style="background-color: #0099cc; color:#FFFFFF">{{trans.label}}</span></div>
                             <div>
-                                <div class="text-ellipsis m-t-xs"><i>You have sent Paycoin to </i><br><b>{{ transaction.address }}</b> from <strong>"{{transaction.account}}"</strong></div>
+                                <div class="text-ellipsis m-t-xs"><i>You have sent Paycoin to </i><br><b>{{
+                                    trans.address }}</b> from <strong>"{{trans.account}}"</strong></div>
                             </div>
                         </div>
-                        <div class="clear" ng-if="transaction.category == 'stake'">
-                            <div><span style="color:#0099cc"><b>{{transaction.amount}} Paycoin</b></span><span class="label bg-light m-l-sm" style="background-color: #0099cc; color:#FFFFFF">{{transaction.label}}</span></div>
+                        <div class="clear" ng-if="trans.category == 'stake'">
+                            <div><span style="color:#0099cc"><b>{{trans.amount}} Paycoin</b></span><span class="label bg-light m-l-sm" style="background-color: #0099cc; color:#FFFFFF">{{trans.label}}</span></div>
                             <div>
                                 <div class="text-ellipsis m-t-xs"><i>You have staked Paycoin</i></div>
                             </div>
                         </div>
-                        <div class="clear" ng-if="transaction.category == 'receive'">
-                            <div><span style="color:#006699"><b>{{transaction.amount}} Paycoin</b></span><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{transaction.label}}</span></div>
+                        <div class="clear" ng-if="trans.category == 'receive'">
+                            <div><span style="color:#006699"><b>{{trans.amount}} Paycoin</b></span><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{trans.label}}</span></div>
                             <div>
-                                <div class="text-ellipsis m-t-xs"><i>You have received Paycoin at </i><br><b>({{transaction.account}}){{ transaction.address }}</b></div>
+                                <div class="text-ellipsis m-t-xs"><i>You have received Paycoin at </i><br><b>({{trans.account}}){{
+                                    trans.address }}</b></div>
                             </div>
                         </div>
-                        <div class="clear" ng-if="transaction.category == 'immature'">
-                            <div><span style="color:#006699"><b>{{transaction.amount}} Paycoin Staking</b></span><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{transaction.label}}</span></div>
+                        <div class="clear" ng-if="trans.category == 'immature'">
+                            <div><span style="color:#006699"><b>{{trans.amount}} Paycoin Staking</b></span><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{trans.label}}</span></div>
                             <div>
-                                <div class="text-ellipsis m-t-xs"><i>You currently have {{transaction.amount}} Paycoin Staking</i><br><b>Confirmations {{ transaction.confirmations }} of 120</b></div>
+                                <div class="text-ellipsis m-t-xs"><i>You currently have {{trans.amount}} Paycoin Staking</i><br><b>Confirmations
+                                    {{ trans.confirmations }} of 120</b></div>
                             </div>
                         </div>
                     </li>

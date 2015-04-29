@@ -1,5 +1,5 @@
 angular.module('PaycoinRpiWallet')
-    .factory('paycoind', function($http, $q, $rootScope){
+    .factory('paycoind', function($http, $q, $localStorage, $rootScope){
 
         var service = {
             serverIndex: -1,
@@ -7,8 +7,19 @@ angular.module('PaycoinRpiWallet')
             getInfo: getInfo,
             listTransactions: listTransactions,
             listAccounts: listAccounts,
-            getServerInfo: getServerInfo
+            getServerInfo: getServerInfo,
+            listAllTransactions: listAllTransactions
         };
+
+        function listAllTransactions(){
+            var deferred = $q.defer();
+            $http.post('/api/listTransactions', {'index':this.serverIndex, 'account': '*'})
+                .then(function(response){
+                    deferred.resolve(response.data);
+                });
+
+            return deferred.promise;
+        }
 
         function setServerIndex(index){
             this.serverIndex = index;
