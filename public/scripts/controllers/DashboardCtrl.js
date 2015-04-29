@@ -3,6 +3,7 @@
 angular.module('PaycoinRpiWallet')
     .controller('DashboardCtrl', function ($scope, $rootScope, $http, paycoind) {
         $rootScope.app.curTitle = "Dashboard";
+        $scope.amtRecent = 10;
 
         $scope.refreshInfo = function() {
             console.log('refreshInfo()');
@@ -10,13 +11,23 @@ angular.module('PaycoinRpiWallet')
                 .then(function (response) {
                     $rootScope.getInfo = response;
                 }
-            )
+            );
+            $scope.recentTransactions()
         };
 
-        paycoind.listTransactions()
-            .then(function(response){
-                $rootScope.listTransactions = response;
-            });
+        $scope.recentTransactions = function(){
+            console.log("amtRecent");
+            console.log($scope.amtRecent);
+            paycoind.listTransactions($scope.amtRecent)
+                .then(function(response){
+                    console.log(response);
+                    $rootScope.listTransactions = response;
+                });
+        };
+
+        $scope.$watch('amtRecent', function(){
+            $scope.recentTransactions()
+        });
 
         $scope.refreshInfo();
     }

@@ -1,7 +1,14 @@
 'use strict';
 
 angular.module('PaycoinRpiWallet')
-    .controller('MintingCtrl', function ($scope, $rootScope) {
+    .controller('MintingCtrl', function ($scope, $rootScope, $localStorage, paycoind) {
         $rootScope.app.curTitle = "Minting";
+
+        paycoind.listMinting()
+            .then(function(response){
+                console.log(response);
+                $localStorage.listMinting = response;
+                $rootScope.listMinting = response;
+            });
     }
 );

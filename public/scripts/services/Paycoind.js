@@ -8,12 +8,13 @@ angular.module('PaycoinRpiWallet')
             listTransactions: listTransactions,
             listAccounts: listAccounts,
             getServerInfo: getServerInfo,
-            listAllTransactions: listAllTransactions
+            listAllTransactions: listAllTransactions,
+            listMinting: listMinting
         };
 
         function listAllTransactions(){
             var deferred = $q.defer();
-            $http.post('/api/listTransactions', {'index':this.serverIndex, 'account': '*'})
+            $http.post('/api/listalltransactions', {'index':this.serverIndex, 'account': '*'})
                 .then(function(response){
                     deferred.resolve(response.data);
                 });
@@ -35,9 +36,13 @@ angular.module('PaycoinRpiWallet')
             return deferred.promise;
         }
 
-        function listTransactions(){
+        function listTransactions(qty){
             var deferred = $q.defer();
-            $http.post('/api/listtransactions',  {'index':this.serverIndex})
+
+            if(qty == null)
+                qty = 10;
+
+            $http.post('/api/listrecenttransactions',  {'index':this.serverIndex, qty: parseInt(qty)})
                 .then(function(response){
                     deferred.resolve(response.data);
                 });
@@ -79,6 +84,17 @@ angular.module('PaycoinRpiWallet')
             $http.post('/api/getserverlist',  {'index':this.serverIndex})
                 .then(function(response){
                     deferred.resolve(response.data);
+                });
+
+            return deferred.promise;
+        }
+
+        function listMinting(){
+            var deferred = $q.defer();
+
+            $http.post('/api/listminting', {'index':this.serverIndex})
+                .then(function(response){
+                   deferred.resolve(response.data);
                 });
 
             return deferred.promise;

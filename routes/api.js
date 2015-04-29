@@ -41,7 +41,23 @@ router.route('/getinfo')
         })
 	});
 
-router.route('/listtransactions')
+router.route('/listalltransactions')
+    .post(function(req,res){
+        setServer(req.body.index);
+
+        var num = 10000;
+
+        client.listTransactions(req.body.account, num, function(err,transactions){
+            if(transactions)
+                res.send(transactions);
+            else {
+                console.log(err);
+                res.send(err);
+            }
+        });
+    }
+);
+router.route('/listaccounttransactions')
     .post(function(req,res){
         setServer(req.body.index);
 
@@ -57,9 +73,24 @@ router.route('/listtransactions')
         });
     }
 );
+router.route('/listrecenttransactions')
+    .post(function(req,res){
+        setServer(req.body.index);
+
+        client.listTransactions("*", req.body.qty, function(err,transactions){
+            if(transactions)
+                res.send(transactions);
+            else {
+                console.log(err);
+                res.send(err);
+            }
+        });
+    }
+);
 
 router.route('/getaddressesbyaccount')
     .post(function(req,res){
+        setServer(req.body.index);
         client.getAddressesByAccount(req.body.account, function(err,addresses){
             res.send(addresses);
         });
@@ -90,6 +121,15 @@ router.route('/listaccounts')
             }
             res.send(accounts);
         });
+    });
+
+router.route('/listminting')
+    .post(function(req,res){
+       setServer(req.body.index);
+        client.cmd('listminting',function(err,mint){
+            if(err) res.send(err);
+            res.send(mint);
+        })
     });
 
 function setServer(index){
