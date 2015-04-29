@@ -6,7 +6,6 @@ angular.module('PaycoinRpiWallet')
         $scope.amtRecent = 10;
 
         $scope.refreshInfo = function() {
-            console.log('refreshInfo()');
             paycoind.getInfo()
                 .then(function (response) {
                     $rootScope.getInfo = response;
@@ -16,8 +15,6 @@ angular.module('PaycoinRpiWallet')
         };
 
         $scope.recentTransactions = function(){
-            console.log("amtRecent");
-            console.log($scope.amtRecent);
             paycoind.listTransactions($scope.amtRecent)
                 .then(function(response){
                     $rootScope.listTransactions = response;

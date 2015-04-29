@@ -14,7 +14,7 @@ Download a prebuilt ARM version of node.js by running this command:
 
 then run:
 
-'cd /usr/local && sudo tar --strip-components 1 -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz`
+`cd /usr/local && sudo tar --strip-components 1 -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz`
 
 You will likely be prompted for a password because of sudo.
 
