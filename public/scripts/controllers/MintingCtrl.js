@@ -6,7 +6,6 @@ angular.module('PaycoinRpiWallet')
 
         paycoind.listMinting()
             .then(function(response){
-                console.log(response);
                 $localStorage.listMinting = response;
                 $rootScope.listMinting = response;
             });

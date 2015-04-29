@@ -20,7 +20,6 @@ angular.module('PaycoinRpiWallet')
             console.log($scope.amtRecent);
             paycoind.listTransactions($scope.amtRecent)
                 .then(function(response){
-                    console.log(response);
                     $rootScope.listTransactions = response;
                 });
         };

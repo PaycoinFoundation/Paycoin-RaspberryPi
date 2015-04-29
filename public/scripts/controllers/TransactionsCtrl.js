@@ -6,8 +6,6 @@ angular.module('PaycoinRpiWallet')
 
         paycoind.listAllTransactions()
             .then(function(response){
-                console.log("listAllTransactions()");
-                console.log(response);
                 $scope.transactions = response;
                 $localStorage.transactions = response;
             });
