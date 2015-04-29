@@ -31,9 +31,9 @@ Install Node.js
 
 ## Setup
 
-Once you have Node.Js installed in the root directory run `npm install`. Let everything install and then `cd public`.
+Once you have Node.Js installed. In the root directory of the project run `npm install`. Let everything install and then `cd public`.
 
-In the public directory, this is your Angular directory, type `bower install`. If this fails, run `npm bower install --save` then try `bower install`
+In the public directory, this is your Angular directory, type `bower install`. If this fails, run `npm install bower --save` then try `bower install`
 
 ## Config 
 
