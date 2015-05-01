@@ -1,1 +1,49 @@
-<pre>{{ serverList | json}}</pre>
+
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th>Name</th>
+        <th>Coin</th>
+        <th>Server IP</th>
+        <th>RPC Username</th>
+        <th>RPC Password</th>
+        <th>RPC Port</th>
+    </tr>
+    <tr ng-repeat="server in serverList">
+        <td>{{server.name}}</td>
+        <td>{{server.coin}}</td>
+        <td>{{server.server}}</td>
+        <td>{{server.rpcuser}}</td>
+        <td>{{server.rpcpassword}}</td>
+        <td>{{server.rpcport}}</td>
+    </tr>
+</table>
+
+<form class="col-lg-6 col-lg-offset-2">
+    <div class="form-group">
+        <label for="serverName">Name of Server</label>
+        <input type="text" class="form-control" id="serverName" ng-model="newserver.name" placeholder="Name of Server" required>
+    </div>
+    <div class="form-group">
+        <label for="symbol">Coin Symbol (BTC, XPY, etc.) </label>
+        <input type="text" class="form-control" id="symbol" ng-model="newserver.coin" placeholder="Coin Symbol" required>
+    </div>
+    <div class="form-group">
+        <label for="serverIP">Server IP</label>
+        <input type="text" class="form-control" id="serverIP" ng-model="newserver.server" placeholder="Server IP" required>
+    </div>
+    <div class="form-group">
+        <label for="serverRPCUsername">RPC Username</label>
+        <input type="text" class="form-control" id="serverRPCUsername" ng-model="newserver.rpcuser" placeholder="RPC Username" required>
+    </div>
+    <div class="form-group">
+        <label for="serverRPCPassword">RPC Password</label>
+        <input type="text" class="form-control" id="serverRPCPassword" ng-model="newserver.rpcpassword" placeholder="RPC Password" required>
+    </div>
+    <div class="form-group">
+        <label for="serverRPCPort">RPC Port</label>
+        <input type="text" class="form-control" id="serverRPCPort" ng-model="newserver.rpcport" placeholder="RPC Port" required>
+    </div>
+
+    <button type="submit" class="btn btn-default" ng-click="addserver()">Add Server</button>
+</form>
