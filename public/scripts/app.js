@@ -94,6 +94,30 @@ angular.module('PaycoinRpiWallet', [
         $scope.chosenServer = $localStorage.serverList[0];
 
         $localStorage.app = $rootScope.app;
+
+        $scope.amtRecent = 10;
+
+        $scope.refreshInfo = function() {
+            paycoind.getInfo()
+                .then(function (response) {
+                    $rootScope.getInfo = response;
+                }
+            );
+            $scope.recentTransactions()
+        };
+
+        $scope.recentTransactions = function(){
+            paycoind.listTransactions($scope.amtRecent)
+                .then(function(response){
+                    $rootScope.listTransactions = response;
+                });
+        };
+
+        $scope.$watch('amtRecent', function(){
+            $scope.recentTransactions()
+        });
+
+        $scope.refreshInfo();
     }
 )
     .run(function($rootScope){
