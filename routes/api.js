@@ -2,8 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var configJSON = require('../config/config.json');
-var addressesJSON = require('../data/addresses.json');
-var transactionsJSON = require('../data/transactions.json');
+var dataJSON = require('../data/data.json');
 
 var bitcoin = require('bitcoin');
 var client;

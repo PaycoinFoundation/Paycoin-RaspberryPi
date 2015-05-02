@@ -64,6 +64,31 @@ angular.module('PaycoinRpiWallet', [
                 controller: 'ContributeCtrl',
                 templateUrl: 'views/contribute.html'
             })
+            .state('txid', {
+                url: '/txid',
+                controller: 'TXIDCtrl',
+                templateUrl: 'views/txid.html'
+            })
+            .state('address', {
+                url: '/address',
+                controller: 'AddressCtrl',
+                templateUrl: 'views/address.html'
+            })
+            .state('block', {
+                url: '/block',
+                controller: 'BlockCtrl',
+                templateUrl: 'views/block.html'
+            })
+            .state('verifymessage', {
+                url: '/verifymessage',
+                controller: 'VerifyMessageCtrl',
+                templateUrl: 'views/verifymessage.html'
+            })
+            .state('signmessage', {
+                url: '/signmessage',
+                controller: 'SignMessageCtrl',
+                templateUrl: 'views/signmessage.html'
+            })
   })
     .controller('MainCtrl', function ($scope, $rootScope, $localStorage, paycoind) {
         paycoind.getServerInfo()
@@ -123,7 +148,7 @@ angular.module('PaycoinRpiWallet', [
     .run(function($rootScope){
         $rootScope.app = {
             name: 'RaspberryPi Wallet',
-            version: '0.1.3 (04292015)',
+            version: '0.1.3 (05012015)',
             curTitle: ''
         };
     });

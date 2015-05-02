@@ -7,22 +7,22 @@
             <div class="panel-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="payTo" class="col-sm-2 control-label">Pay To:</label>
+                        <label for="xpyaddress" class="col-sm-2 control-label">Pay To:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="payTo" placeholder="Enter a Paycoin address">
+                            <input type="text" class="form-control" ng-model="xpyaddress" id="xpyaddress" placeholder="Enter a Paycoin address">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="address_label" class="col-sm-2 control-label">Label: </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="address_label" placeholder="Enter a label for this address to add it to your address book">
+                            <input type="text" class="form-control" ng-model="address_label" id="address_label" placeholder="Enter a label for this address to add it to your address book">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="amount" class="col-sm-2 control-label">Amount: </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" id="amount">
+                                <input type="text" class="form-control" ng-model="amount"  id="amount">
                                 <div class="input-group-addon">XPY</div>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                 Address Book
             </div>
             <div class="panel-body">
-                <em>TODO: Address book</em><br />
+                <button class="btn btn-success" ng-click="addaddress()">Add Address</button>
             </div>
         </div>
     </div>
