@@ -1,5 +1,5 @@
 angular.module('PaycoinRpiWallet')
-    .factory('paycoind', function($http, $q, $localStorage, $rootScope){
+    .factory('paycoind', function($http, $q){
 
         var service = {
             serverIndex: -1,
@@ -10,11 +10,66 @@ angular.module('PaycoinRpiWallet')
             getServerInfo: getServerInfo,
             listAllTransactions: listAllTransactions,
             listMinting: listMinting,
-            addserver:addserver,
+            addServer:addServer,
+            sendToAddress: sendToAddress,
+            saveSendAddress: saveSendAddress,
+            saveDataJSON: saveDataJSON,
+            unlock: unlock,
             basicInfo: {}
         };
 
-        function addserver(newserver){
+        function unlock(passphrase, timeout){
+            var deferred = $q.defer();
+
+            var payload = {
+                index: this.serverIndex,
+                passphrase: passphrase,
+                timeout: timeout
+            };
+
+            $http.post('/api/unlock', payload)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                });
+
+            return deferred.promise;
+        }
+
+        function sendToAddress(sendPayload){
+
+            var deferred = $q.defer();
+
+            $http.post('/api/sendtoaddress', sendPayload)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                });
+
+            return deferred.promise;
+        }
+
+        function saveSendAddress(address, label){
+            var deferred = $q.defer();
+
+            var payload = {
+                index: this.serverIndex,
+                label: label,
+                address: address
+            };
+
+            $http.post('/api/addtoaddressbook', payload)
+                .then(function(response){
+
+                    deferred.resolve(response.data);
+                });
+
+            return deferred.promise;
+        }
+
+        function saveDataJSON(){
+
+        }
+
+        function addServer(newserver){
             var deferred = $q.defer();
             $http.post('/api/addserver', newserver)
                 .then(function(response){

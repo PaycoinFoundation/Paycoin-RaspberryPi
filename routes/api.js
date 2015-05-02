@@ -131,6 +131,41 @@ router.route('/listminting')
         })
     });
 
+router.route('/addtoaddressbook')
+    .post(function(req,res){
+        console.log(req.body);
+        dataJSON.addressbook.push(req.body);
+        res.send('Analyzing Data');
+    });
+
+router.route('/sendtoaddress')
+    .post(function(req,res){
+        //console.log(req.body);
+        setServer(req.body.index);
+        client.sendToAddress(req.body.paycoinaddress, parseInt(req.body.amount), function(err,response){
+            if(err) {
+                console.log(err);
+                res.send(err);
+            }
+            console.log(response);
+            res.send(response);
+        })
+    });
+
+router.route('/unlock')
+    .post(function(req,res){
+        setServer(req.body.index);
+        console.log(req.body);
+
+        //var timeout = res.body.timeout || 120;
+
+        client.walletPassphrase('fxc4ygxcrybb', 120, function(err, response){
+            if(err) res.send(err);
+            console.log(response);
+            res.send(response);
+        });
+    });
+
 function setServer(index){
     if(!index){
         index = 0;
