@@ -152,6 +152,17 @@ router.route('/sendtoaddress')
         })
     });
 
+router.route('/walletlock')
+    .post(function(req,res){
+        setServer(req.body.index);
+        console.log(req.body);
+        client.walletLock(function(err,response){
+           if(err) res.send(err);
+           res.send("success")
+        });
+    });
+
+
 router.route('/unlock')
     .post(function(req,res){
         setServer(req.body.index);
@@ -159,8 +170,9 @@ router.route('/unlock')
 
         //var timeout = res.body.timeout || 120;
 
-        client.walletPassphrase('fxc4ygxcrybb', 120, function(err, response){
+        client.walletPassphrase(req.body.passphrase, req.body.timeout, function(err, response){
             if(err) res.send(err);
+            console.log("walletpassphrase response");
             console.log(response);
             res.send(response);
         });

@@ -87,7 +87,7 @@
             </div>
             <div class="panel-body">
                 <p>
-                    Unlocks {{getInfo.unlocked_until * 1000 | fromNow}}
+                    Locks {{getInfo.unlocked_until * 1000 | fromNow}}
                 </p>
             </div>
         </div>
@@ -111,7 +111,7 @@
             </div>
             <div class="panel-body">
                 <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
-                    <li ng-repeat="transaction in listTransactions | orderBy:'time':true" class="list-group-item clearfix b-l-3x {{ transaction.class }}">
+                    <li ng-repeat="transaction in listTransactions | orderBy:'time':true" ng-if="transaction.category != 'orphan' || transaction.category != 'move'" class="list-group-item clearfix b-l-3x {{ transaction.class }}">
                         <a class="avatar thumb pull-left m-r">
                             <img ng-src="/images/{{transaction.category}}.png">
                         </a>

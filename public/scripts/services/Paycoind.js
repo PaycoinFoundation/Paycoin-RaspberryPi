@@ -15,6 +15,7 @@ angular.module('PaycoinRpiWallet')
             saveSendAddress: saveSendAddress,
             saveDataJSON: saveDataJSON,
             unlock: unlock,
+            walletlock: walletlock,
             basicInfo: {}
         };
 
@@ -33,6 +34,14 @@ angular.module('PaycoinRpiWallet')
                 });
 
             return deferred.promise;
+        }
+
+        function walletlock(){
+            $http.post('/api/walletlock',{index:this.serverIndex})
+                .then(function(response){
+                    console.log("wallet lock response");
+                    console.log(response);
+                })
         }
 
         function sendToAddress(sendPayload){

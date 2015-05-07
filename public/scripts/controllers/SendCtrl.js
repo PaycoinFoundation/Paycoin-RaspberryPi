@@ -12,10 +12,13 @@ angular.module('PaycoinRpiWallet')
                 console.log($scope.send);
                 paycoind.unlock($scope.send.passphrase, 60)
                     .then(function(response){
+                        console.log("unlock response");
                         console.log(response);
                         paycoind.sendToAddress($scope.send)
                             .then(function(response){
+                                console.log("sendToAddress response");
                                 console.log(response);
+                                paycoind.walletlock()
                             });
                     })
             } else {
