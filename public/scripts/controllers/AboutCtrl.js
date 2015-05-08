@@ -2,6 +2,6 @@
 
 angular.module('PaycoinRpiWallet')
     .controller('AboutCtrl', function ($scope, $rootScope) {
-        $rootScope.app.curTitle = "Transactions";
+        $rootScope.app.curTitle = "About";
     }
 );

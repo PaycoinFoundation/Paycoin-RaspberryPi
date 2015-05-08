@@ -64,18 +64,18 @@ angular.module('PaycoinRpiWallet', [
                 controller: 'ContributeCtrl',
                 templateUrl: 'views/contribute.html'
             })
-            .state('txid', {
-                url: '/txid',
+            .state('txidinfo', {
+                url: '/txid/:txid',
                 controller: 'TXIDCtrl',
                 templateUrl: 'views/txid.html'
             })
-            .state('address', {
-                url: '/address',
+            .state('addressinfo', {
+                url: '/address/:address',
                 controller: 'AddressCtrl',
                 templateUrl: 'views/address.html'
             })
-            .state('block', {
-                url: '/block',
+            .state('blockinfo', {
+                url: '/block/:block',
                 controller: 'BlockCtrl',
                 templateUrl: 'views/block.html'
             })
@@ -88,6 +88,31 @@ angular.module('PaycoinRpiWallet', [
                 url: '/signmessage',
                 controller: 'SignMessageCtrl',
                 templateUrl: 'views/signmessage.html'
+            })
+            .state('lockwallet', {
+                url: '/lockwallet',
+                controller: 'LockWalletCtrl',
+                templateUrl: 'views/lockwallet.html'
+            })
+            .state('unlockwallet', {
+                url: '/unlockwallet',
+                controller: 'UnlockWalletCtrl',
+                templateUrl: 'views/unlockwallet.html'
+            })
+            .state('settxfee', {
+                url: '/settxfee',
+                controller: 'SetTXFeeCtrl',
+                templateUrl: 'views/settxfee.html'
+            })
+            .state('move', {
+                url: '/move',
+                controller: 'MoveCtrl',
+                templateUrl: 'views/move.html'
+            })
+            .state('console', {
+                url: '/console',
+                controller: 'ConsoleCtrl',
+                templateUrl: 'views/console.html'
             })
   })
     .controller('MainCtrl', function ($scope, $rootScope, $localStorage, paycoind) {
@@ -148,7 +173,7 @@ angular.module('PaycoinRpiWallet', [
     .run(function($rootScope){
         $rootScope.app = {
             name: 'RaspberryPi Wallet',
-            version: '0.1.3 (05012015)',
+            version: '0.1.3 (05072015)',
             curTitle: ''
         };
     });

@@ -133,16 +133,18 @@ router.route('/listminting')
 
 router.route('/addtoaddressbook')
     .post(function(req,res){
-        console.log(req.body);
-        dataJSON.addressbook.push(req.body);
-        res.send('Analyzing Data');
+        dataJSON.addressBookOutgoing.push(req.body);
+        fs.writeFile('data/data.json', JSON.stringify(dataJSON, null, 4), function(err){
+            if (err) return console.log(err);
+            res.send(dataJSON.addressBookOutgoing);
+        });
     });
 
 router.route('/sendtoaddress')
     .post(function(req,res){
         //console.log(req.body);
         setServer(req.body.index);
-        client.sendToAddress(req.body.paycoinaddress, parseInt(req.body.amount), function(err,response){
+        client.sendToAddress(req.body.paycoinaddress, parseFloat(req.body.amount), function(err,response){
             if(err) {
                 console.log(err);
                 res.send(err);
@@ -176,6 +178,33 @@ router.route('/unlock')
             console.log(response);
             res.send(response);
         });
+    });
+
+router.route('/addaddress')
+    .post(function(req,res){
+        dataJSON.addressBookOutgoing.push(req.body);
+        fs.writeFile('data/data.json', JSON.stringify(dataJSON, null, 4), function(err){
+            if (err) return console.log(err);
+            res.send(dataJSON.addressBookOutgoing);
+        });
+    });
+
+router.route('/getaddressbook')
+    .get(function(req,res){
+        res.send(dataJSON.addressBookOutgoing);
+    });
+
+router.route('/removeaddress')
+    .post(function(req,res){
+        console.log("body");
+        console.log(req.body);
+        console.log("dataJSON.addressBookOutgoing");
+        console.log(dataJSON.addressBookOutgoing);
+        var pos = dataJSON.addressBookOutgoing.indexOf(req.body);
+        console.log("position");
+        console.log(pos);
+        dataJSON.addressBookOutgoing.splice(pos,1);
+        res.send("removed at " + pos);
     });
 
 function setServer(index){

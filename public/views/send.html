@@ -51,6 +51,11 @@
             </div>
             <div class="panel-body">
                 <button class="btn btn-success" ng-click="addaddress()">Add Address</button>
+                <ul>
+                    <li ng-repeat="add in addresses">
+                        <a ng-click="sendTo(add.address)">{{add.label}} - {{add.address}}</a> <a ng-click="removeAddress(add)"><i class="glyphicon glyphicon-remove"></i></a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
