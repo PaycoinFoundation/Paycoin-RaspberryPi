@@ -44,6 +44,11 @@ angular.module('PaycoinRpiWallet', [
                 controller: 'AddressbookCtrl',
                 templateUrl: 'views/addressbook.html'
             })
+            .state('addnode', {
+                url: '/addnode',
+                controller: 'AddNodeCtrl',
+                templateUrl: 'views/addnode.html'
+            })
             .state('peerinfo', {
                 url: '/peerinfo',
                 controller: 'PeerInfoCtrl',

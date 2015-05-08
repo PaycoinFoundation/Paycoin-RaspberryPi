@@ -7,15 +7,15 @@ angular.module('PaycoinRpiWallet')
 
         $rootScope.app.curTitle = "Send Coins";
 
-        function getAddressBook(){
+        $scope.getAddressBook = function(){
             $http.get('/api/getaddressbook')
                 .then(function(response){
                     console.log(response.data);
                     $scope.addresses = response.data;
                 })
-        }
+        };
 
-        getAddressBook();
+        $scope.getAddressBook();
 
         $scope.sendTo = function(address){
             console.log(address + " clicked");
@@ -42,6 +42,7 @@ angular.module('PaycoinRpiWallet')
                 paycoind.sendToAddress($scope.send)
                     .then(function(response){
                         console.log(response);
+                        $scope.successful_txid = response.data;
                     });
             }
         };
@@ -54,7 +55,6 @@ angular.module('PaycoinRpiWallet')
 
             $http.post('/api/addtoaddressbook', payload)
                 .then(function(response){
-                    console.log(response);
                     $scope.addresses = response.data;
                 })
         };
@@ -63,7 +63,7 @@ angular.module('PaycoinRpiWallet')
             console.log("removing " + address.address);
             $http.post('/api/removeaddress', address)
                 .then(function(response){
-                    console.log(response.data);
+                    $scope.getAddressBook();
                 });
         }
     }

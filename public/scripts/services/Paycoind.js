@@ -16,8 +16,35 @@ angular.module('PaycoinRpiWallet')
             saveDataJSON: saveDataJSON,
             unlock: unlock,
             walletlock: walletlock,
+            getPeerInfo: getPeerInfo,
+            getNewAddress: getNewAddress,
             basicInfo: {}
         };
+
+        function getNewAddress(label){
+            var deferred = $q.defer();
+
+            var payload = {
+                index:this.serverIndex,
+                account: label
+            };
+
+            $http.post('/api/getnewaddress', payload)
+                .then(function(response){
+                    deferred.resolve(response);
+                });
+            return deferred.promise;
+        }
+
+        function getPeerInfo(){
+            var deferred = $q.defer();
+
+            $http.post('/api/peerinfo',{index:this.serverIndex})
+                .then(function(response){
+                    deferred.resolve(response);
+                });
+            return deferred.promise;
+        }
 
         function unlock(passphrase, timeout){
             var deferred = $q.defer();

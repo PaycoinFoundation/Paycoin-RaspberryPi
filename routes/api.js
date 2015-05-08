@@ -16,7 +16,7 @@ router.route('/getserverlist')
         res.send(configJSON);
     });
 
-router.route('/addserver')
+router.route('/addnode')
     .post(function(req,res){
         if(validServerConfigObject(req.body)) {
             configJSON.push(req.body);
@@ -27,7 +27,7 @@ router.route('/addserver')
                 })
             });
         } else {
-            res.send('Invalid ServerConfigObject');
+            res.send({error:'Invalid ServerConfigObject'});
         }
     });
 
@@ -196,15 +196,28 @@ router.route('/getaddressbook')
 
 router.route('/removeaddress')
     .post(function(req,res){
-        console.log("body");
-        console.log(req.body);
-        console.log("dataJSON.addressBookOutgoing");
-        console.log(dataJSON.addressBookOutgoing);
         var pos = dataJSON.addressBookOutgoing.indexOf(req.body);
-        console.log("position");
-        console.log(pos);
         dataJSON.addressBookOutgoing.splice(pos,1);
         res.send("removed at " + pos);
+    });
+
+router.route('/peerinfo')
+    .post(function(req,res){
+        setServer(req.body.index);
+        client.getPeerInfo(function(err, response){
+            if(err) res.send(err);
+            res.send(response);
+        })
+    });
+
+router.route('/getnewaddress')
+    .post(function(req,res){
+        setServer(req.body.index);
+        client.getNewAddress(req.body.account, function(err,response){
+            if(err) res.send(err);
+            console.log(response);
+            res.send(response);
+        })
     });
 
 function setServer(index){

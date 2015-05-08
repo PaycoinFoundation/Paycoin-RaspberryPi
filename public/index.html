@@ -131,13 +131,16 @@
                                 <li>
                                     <a ui-sref-active="active" ui-sref="addressinfo">Address</a>
                                 </li>
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="peerinfo">Peer Info</a>
+                                </li>
                             </ul>
                         </li>
                         <li>
                             <a ui-sref-active="active" ui-sref="options"><i class="fa fa-cogs fa-fw"></i> Advanced<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse in" aria-expanded="false">
                                 <li>
-                                    <a ui-sref-active="active" ui-sref="addnode">Add Nodes</a>
+                                    <a ui-sref-active="active" ui-sref="addnode">Add Node</a>
                                 </li>
                                 <li>
                                     <a ui-sref-active="active" ui-sref="unlockwallet">Unlock Wallet</a>
@@ -238,6 +241,7 @@
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/AboutCtrl.js"></script>
+    <script src="scripts/controllers/AddNodeCtrl.js"></script>
     <script src="scripts/controllers/AddressbookCtrl.js"></script>
     <script src="scripts/controllers/BlockInfoCtrl.js"></script>
     <script src="scripts/controllers/ConsoleCtrl.js"></script>
