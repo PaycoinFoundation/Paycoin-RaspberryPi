@@ -29,6 +29,16 @@ Update download servers
 Install Node.js
 `sudo apt-get install nodejs`
 
+Install Python Software Properties (a pre-requisite)
+`sudo apt-get install python-software-properties`
+
+Install Git
+`sudo apt-get install git`
+
+Clone this repository
+`git clone https://github.com/tvl83/RaspPaycoin <directory>`
+The <directory> is optional if you do not want the default folder name of `RaspPaycoin`.
+
 ## Setup
 
 Once you have Node.Js installed. In the root directory of the project run `npm install`. Let everything install and then `cd public`.
