@@ -76,7 +76,7 @@ router.route('/listrecenttransactions')
     .post(function(req,res){
         setServer(req.body.index);
 
-        client.listTransactions("*", req.body.qty, function(err,transactions){
+        client.listTransactions("*", 50, function(err,transactions){
             if(transactions)
                 res.send(transactions);
             else {
@@ -215,9 +215,48 @@ router.route('/getnewaddress')
         setServer(req.body.index);
         client.getNewAddress(req.body.account, function(err,response){
             if(err) res.send(err);
-            console.log(response);
             res.send(response);
         })
+    });
+
+router.route('/getrawtransaction')
+    .post(function(req,res){
+        setServer(req.body.index);
+        client.getRawTransaction(req.body.txid, function (err,response){
+            if(err) res.send(err);
+            res.send(response);
+        })
+    });
+
+router.route('/gettransaction')
+    .post(function(req,res){
+        setServer(req.body.index);
+        client.getTransaction(req.body.txid, function (err,response){
+            if(err) res.send(err);
+            res.send(response);
+        })
+    });
+
+router.route('/decoderawtransaction')
+    .post(function(req,res){
+        setServer(req.body.index);
+        client.decodeRawTransaction(req.body.rawtrans, function (err,response) {
+            if (err) res.send(err);
+            res.send(response);
+        })
+    });
+
+router.route('/listaddresstransactions')
+    .post(function(req,res){
+        setServer(req.body.index);
+        var account;
+        client.getAccount(req.body.address, function(err, response){
+            account = response;
+            client.listTransactions(account,function(err,response){
+                if (err) res.send(err);
+                res.send(response);
+            })
+        });
     });
 
 function setServer(index){

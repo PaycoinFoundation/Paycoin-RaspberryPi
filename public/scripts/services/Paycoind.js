@@ -9,6 +9,7 @@ angular.module('PaycoinRpiWallet')
             listAccounts: listAccounts,
             getServerInfo: getServerInfo,
             listAllTransactions: listAllTransactions,
+            listAddressTransactions: listAddressTransactions,
             listMinting: listMinting,
             addServer:addServer,
             sendToAddress: sendToAddress,
@@ -18,8 +19,56 @@ angular.module('PaycoinRpiWallet')
             walletlock: walletlock,
             getPeerInfo: getPeerInfo,
             getNewAddress: getNewAddress,
+            getRawTransaction: getRawTransaction,
+            decodeRawTransaction: decodeRawTransaction,
+            getTransaction: getTransaction,
             basicInfo: {}
         };
+
+        function getTransaction(txid){
+            var deferred = $q.defer();
+
+            var payload = {
+                index:this.serverIndex,
+                txid: txid
+            };
+
+            $http.post('/api/gettransaction',payload)
+                .then(function(response){
+                    deferred.resolve(response);
+                });
+            return deferred.promise;
+        }
+
+        function getRawTransaction(txid){
+            var deferred = $q.defer();
+
+            var payload = {
+                index:this.serverIndex,
+                txid: txid
+            };
+
+            $http.post('/api/getrawtransaction',payload)
+                .then(function(response){
+                    deferred.resolve(response);
+                });
+            return deferred.promise;
+        }
+
+        function decodeRawTransaction(rawtrans){
+            var deferred = $q.defer();
+
+            var payload = {
+                index:this.serverIndex,
+                rawtrans: rawtrans
+            };
+
+            $http.post('/api/decoderawtransaction',payload)
+                .then(function(response){
+                    deferred.resolve(response);
+                });
+            return deferred.promise;
+        }
 
         function getNewAddress(label){
             var deferred = $q.defer();
@@ -117,6 +166,16 @@ angular.module('PaycoinRpiWallet')
         function listAllTransactions(){
             var deferred = $q.defer();
             $http.post('/api/listalltransactions', { 'index' : this.serverIndex, 'account': '*'} )
+                .then(function(response){
+                    deferred.resolve(response.data);
+                });
+
+            return deferred.promise;
+        }
+
+        function listAddressTransactions(address){
+            var deferred = $q.defer();
+            $http.post('/api/listaddresstransactions', { 'index' : this.serverIndex, 'address': address} )
                 .then(function(response){
                     deferred.resolve(response.data);
                 });

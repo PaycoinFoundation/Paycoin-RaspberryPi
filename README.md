@@ -41,16 +41,17 @@ The <directory> is optional if you do not want the default folder name of `RaspP
 
 ## Setup
 
-Once you have Node.Js installed. In the root directory of the project run `npm install`. Let everything install and then `cd public`.
+Once you have Node.Js installed. In the root directory of the project run `npm install` and `sudo npm bower install -g` Let everything install and then `cd public`.
 
-In the public directory, this is your Angular directory, type `bower install`. If this fails, run `npm install bower --save` then try `bower install`
+In the public directory, this is your Angular directory, type `bower install`.
 
 ## Config 
 
-Rename the `/config/config.changeme.json` to `config.json`
+Rename the `/config/config.changeme.json` to `config.json` with `mv config.changeme.json config.json`
  
 Within the `config.json` change the rpcuser, rpcpassword, and rpcport to what ever is set in your `paycoin.conf`.
 
+The `paycoin.conf` that is on the raspberryPi is configured with the default settings so you wont have to do anything. On any other system you need to set it to the correct parameters.
 ## Run the server
 
 From the root directory run `npm start`

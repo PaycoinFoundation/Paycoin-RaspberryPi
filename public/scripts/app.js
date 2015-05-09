@@ -76,12 +76,12 @@ angular.module('PaycoinRpiWallet', [
             })
             .state('addressinfo', {
                 url: '/address/:address',
-                controller: 'AddressCtrl',
+                controller: 'AddressInfoCtrl',
                 templateUrl: 'views/address.html'
             })
             .state('blockinfo', {
                 url: '/block/:block',
-                controller: 'BlockCtrl',
+                controller: 'BlockInfoCtrl',
                 templateUrl: 'views/block.html'
             })
             .state('verifymessage', {
@@ -178,7 +178,7 @@ angular.module('PaycoinRpiWallet', [
     .run(function($rootScope){
         $rootScope.app = {
             name: 'RaspberryPi Wallet',
-            version: '0.1.3 (05072015)',
+            version: '0.1.5 (08MAY2015)',
             curTitle: ''
         };
     });
