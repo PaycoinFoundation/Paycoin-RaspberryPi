@@ -60,3 +60,13 @@ From the root directory run `npm start`
 
 Please feel free to submit pull requests. This is a work in progress at the moment and we welcome any input.
 The views are just a free bootstrap admin panel ([SB Bootstrap 2](http://startbootstrap.com/template-overviews/sb-admin-2/)). If you want to skin the UI, please fork and skin it and submit a pull request.
+
+This project is supported by the community. 
+
+BTC: `1Q2ZEQcMftL6tGKVXWNobwTZDFVDQx2aGM`
+
+XPY: `PURNbr88icJ7YX47o6jrdWSh7PQzfrKWrk`
+
+Any donations are greatly appreciated. This is a project created 100% for free on a volunteer basis.
+
+Thank you!
