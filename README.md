@@ -32,6 +32,9 @@ Install Node.js
 Install Python Software Properties (a pre-requisite)
 `sudo apt-get install python-software-properties`
 
+Install SQLite
+`sudo apt-get install sqlite3 libsqlite3-dev`
+
 Install Git
 `sudo apt-get install git`
 
