@@ -2,27 +2,77 @@ angular.module('PaycoinRpiWallet')
     .factory('paycoind', function($http, $q){
 
         var service = {
-            serverIndex: -1,
-            setServerIndex: setServerIndex,
+            checkWallet: checkWallet,
+            decodeRawTransaction: decodeRawTransaction, // <hex string>
+            dumpPrivKey: dumpPrivKey, // <paycoinaddress>
+            getAccount: getAccount, // <paycoinaddress>
+            getAccountAddress: getAccountAddress,
+            getAddressesByAccount: getAddressesByAccount,
+            getBlock: getBlock, // <hash> [txinfo] [txdetails]
+            getBalance: getBalance, // [account] [minconf=1]
+            getBlockCount: getBlockCount,
+            getBlockHash: getBlockHash, // <index>
+            getBlockTemplate: getBlockTemplate, // [params]
+            getCheckpoint: getCheckpoint,
+            getConnectionCount: getConnectionCount,
+            getDifficulty: getDifficulty,
+            getGenerate: getGenerate,
+            getHashesPerSec: getHashesPerSec,
             getInfo: getInfo,
-            listTransactions: listTransactions,
+            getMiningInfo: getMiningInfo,
+            getNetworkGHps: getNetworkGHps,
+            getNewAddress: getNewAddress, // [account]
+            getPeerInfo: getPeerInfo,
+            getRawMemPool: getRawMemPool,
+            getRawTransaction: getRawTransaction, // <txid> [verbose=0]
+            getReceivedByAccount: getReceivedByAccount, // <account> [minconf=1]
+            getReceivedByAddress: getReceivedByAddress, // <paycoinaddress> [minconf=1]
+            getTransaction: getTransaction,
+            getTxOut: getTxOut, // "txid" n (includemempool)
+            getWork: getWork, // [data]
+            help: help,
+            importPrivKey:importPrivKey, // <paycoinprivkey> [label]
+            keyPoolRefill: keyPoolRefill,
             listAccounts: listAccounts,
-            getServerInfo: getServerInfo,
+            listAddressGroupings: listAddressGroupings,
+            listMinting: listMinting, //[count=-1] [from=0]
+            listReceivedByAccount:listReceivedByAccount, //[minconf=1] [includeempty=false]
+            listReceivedByAddress:listReceivedByAddress, // [minconf=1] [includeempty=false]
+            listSinceBlock:listSinceBlock, //[blockhash] [target-confirmations]
+            listTransactions: listTransactions, //[account] [count=10] [from=0]
+            listUnspent:listUnspent, //[minconf=1] [maxconf=9999999] ["address",...]
+            makeKeyPair:makeKeyPair, //[prefix]
+            move:move,// <fromaccount> <toaccount> <amount> [minconf=1] [comment]
+            repairWallet:repairWallet,
+            reserveBalance:reserveBalance,// [<reserve> [amount]]
+            sendAlert:sendAlert, // <message> <privatekey> <minver> <maxver> <priority> <id> [cancelupto]
+            sendfrom:sendFrom, // <fromaccount> <topaycoinaddress> <amount> [minconf=1] [comment] [comment-to]
+            sendMany :sendMany,//<fromaccount> {address:amount,...} [minconf=1] [comment]
+            sendRawTransaction: sendRawTransaction, //<hex string> [checkinputs=0]
+            sendToAddress: sendToAddress,// <paycoinaddress> <amount> [comment] [comment-to]
+            setAccount: setAccount, //<paycoinaddress> <account>
+            setGenerate: setGenerate, // <generate> [genproclimit]
+            setTxFee: setTxFee, //<amount>
+            signMessage:signMessage, //<paycoinaddress> <message>
+            signRawTransaction: signRawTransaction, // <hex string> [{"txid":txid,"vout":n,"scriptPubKey":hex},...] [<privatekey1>,...] [sighashtype="ALL"]
+            stop: stop,
+            submitBlock: submitBlock, //<hex data> [optional-params-obj]
+            validateAddress:validateAddress, // <paycoinaddress>
+            verifyMessage: verifyMessage, // <paycoinaddress> <signature> <message>
+            walletLock: walletlock,
+            walletPassphrase: walletPassphrase, // <passphrase> <timeout> [mintonly]
+            walletPassphraseChange: walletPassphraseChange, // <oldpassphrase> <newpassphrase>
+
             listAllTransactions: listAllTransactions,
             listAddressTransactions: listAddressTransactions,
-            listMinting: listMinting,
-            addServer:addServer,
-            sendToAddress: sendToAddress,
             saveSendAddress: saveSendAddress,
-            saveDataJSON: saveDataJSON,
             unlock: unlock,
-            walletlock: walletlock,
-            getPeerInfo: getPeerInfo,
-            getNewAddress: getNewAddress,
-            getRawTransaction: getRawTransaction,
-            decodeRawTransaction: decodeRawTransaction,
-            getTransaction: getTransaction,
-            basicInfo: {}
+            saveDataJSON: saveDataJSON,
+            addServer:addServer,
+            serverIndex: -1,
+            basicInfo: {},
+            getServerInfo: getServerInfo,
+            setServerIndex: setServerIndex
         };
 
         function getTransaction(txid){
