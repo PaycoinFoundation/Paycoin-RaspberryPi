@@ -62,7 +62,7 @@
 </div>
 
 <div ng-if="successful_txid" class="alert alert-success">
-    Success! <a ui-sref="txidinfo(successful_txid)">{{successful_txid}}</a>
+    Success! <a ui-sref="txidinfo({txid:successful_txid})">{{successful_txid}}</a>
 </div>
 
 <div class="alert alert-info">

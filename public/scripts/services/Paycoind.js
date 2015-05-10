@@ -106,6 +106,7 @@ angular.module('PaycoinRpiWallet')
 
             $http.post('/api/unlock', payload)
                 .then(function(response){
+                    console.log(response);
                     deferred.resolve(response.data);
                 });
 
@@ -124,7 +125,17 @@ angular.module('PaycoinRpiWallet')
 
             var deferred = $q.defer();
 
-            $http.post('/api/sendtoaddress', sendPayload)
+            var payload = {
+                index: this.serverIndex,
+                paycoindaddress: sendPayload.paycoinaddress,
+                amount: sendPayload.amount
+            };
+
+            if(sendPayload.passphrase){
+                payload.passphrase = sendPayload.passphrase;
+            }
+
+            $http.post('/api/sendtoaddress', payload)
                 .then(function(response){
                     deferred.resolve(response.data);
                 });

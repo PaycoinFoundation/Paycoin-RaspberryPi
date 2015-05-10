@@ -24,6 +24,7 @@ angular.module('PaycoinRpiWallet')
         };
 
         $scope.sendcoin = function(){
+
             if($localStorage.chosenServer.locked == true){
                 console.log("chosenServer locked");
                 console.log($scope.send);
@@ -35,7 +36,8 @@ angular.module('PaycoinRpiWallet')
                             .then(function(response){
                                 console.log("sendToAddress response");
                                 console.log(response);
-                                paycoind.walletlock()
+                                $scope.successful_txid = response;
+                                paycoind.walletlock();
                             });
                     })
             } else {

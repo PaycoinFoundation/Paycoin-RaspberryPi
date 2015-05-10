@@ -128,7 +128,7 @@ angular.module('PaycoinRpiWallet', [
             });
 
         $scope.changeServer = function(index){
-            console.log(index);
+            console.log("server changed to " + index);
             paycoind.setServerIndex(index);
             $localStorage.chosenServer = $localStorage.serverList[index];
             $scope.chosenServer = $localStorage.serverList[index];
@@ -150,7 +150,7 @@ angular.module('PaycoinRpiWallet', [
 
         $localStorage.app = $rootScope.app;
 
-        $scope.amtRecent = 10;
+        $scope.amtRecent = 50;
 
         $scope.refreshInfo = function() {
             paycoind.getInfo()
@@ -158,18 +158,20 @@ angular.module('PaycoinRpiWallet', [
                     $rootScope.getInfo = response;
                 }
             );
-            $scope.recentTransactions()
+            $scope.recentTransactions(50)
         };
 
-        $scope.recentTransactions = function(){
-            paycoind.listTransactions($scope.amtRecent)
+        $scope.recentTransactions = function(amt){
+            console.log("recentTransactions " + amt);
+            paycoind.listTransactions(amt)
                 .then(function(response){
                     $rootScope.listTransactions = response;
                 });
         };
 
-        $scope.$watch('amtRecent', function(){
-            $scope.recentTransactions()
+        $scope.$watch('amtRecent', function(newVal){
+            console.log('amtRecent changed');
+            $scope.recentTransactions($scope.amtRecent)
         });
 
         $scope.refreshInfo();
@@ -178,7 +180,7 @@ angular.module('PaycoinRpiWallet', [
     .run(function($rootScope){
         $rootScope.app = {
             name: 'RaspberryPi Wallet',
-            version: '0.1.5 (08MAY2015)',
+            version: '0.1.5 (09MAY2015)',
             curTitle: ''
         };
     });

@@ -41,7 +41,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Paycoin Wallet - RaspberryPi Edition</a>
+                <a class="navbar-brand" href="index.html">Paycoin Wallet - RaspberryPi Edition - {{chosenServer.name}}</a>
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
@@ -120,8 +120,8 @@
                             <a ui-sref-active="active" ui-sref="addressbook"><i class="fa fa-book fa-fw"></i> Address Book</a>
                         </li>
                         <li>
-                            <a ui-sref-active="active" ui-sref="blockchain"><i class="fa fa-book fa-fw"></i> Block Chain Info <span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse in" aria-expanded="false">
+                            <a ui-sref-active="active"><i class="fa fa-book fa-fw"></i> Block Chain Info <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
                                 <li>
                                     <a ui-sref-active="active" ui-sref="blockinfo">Block</a>
                                 </li>
@@ -137,8 +137,8 @@
                             </ul>
                         </li>
                         <li>
-                            <a ui-sref-active="active" ui-sref="options"><i class="fa fa-cogs fa-fw"></i> Advanced<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse in" aria-expanded="false">
+                            <a ui-sref-active="active"><i class="fa fa-cogs fa-fw"></i> Advanced<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
                                 <li>
                                     <a ui-sref-active="active" ui-sref="addnode">Add Node</a>
                                 </li>

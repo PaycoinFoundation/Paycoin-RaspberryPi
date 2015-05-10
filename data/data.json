@@ -1,5 +1,18 @@
 {
-  "addressBookOutgoing":[],
-  "addressBookIncoming":[],
-  "settings": []
+    "addressBookOutgoing": [
+        {
+            "label": "qt1",
+            "address": "PBJK7wqszSVanowDWw3RcAN5YbuQZXMMSM"
+        },
+        {
+            "label": "qt2",
+            "address": "PD2brsDYcymdfj8Lx39i7CqMsNLVCCD4Vs"
+        },
+        {
+            "label": "qt3",
+            "address": "PD2brsDYcymdfj8Lx39i7CqMsNLVCCD4Vs"
+        }
+    ],
+    "addressBookIncoming": [],
+    "settings": []
 }
