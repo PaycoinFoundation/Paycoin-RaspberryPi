@@ -76,7 +76,7 @@ router.route('/listrecenttransactions')
     .post(function(req,res){
         setServer(req.body.index);
 
-        client.listTransactions("*", 50, function(err,transactions){
+        client.listTransactions("*", req.body.qty, function(err,transactions){
             if(transactions)
                 res.send(transactions);
             else {
@@ -169,11 +169,26 @@ router.route('/unlock')
     .post(function(req,res){
         setServer(req.body.index);
         console.log(req.body);
-
         //var timeout = res.body.timeout || 120;
-
         client.walletPassphrase(req.body.passphrase, req.body.timeout, function(err, response){
-            if(err) res.send(err);
+            if(err) {
+                // source https://github.com/bitcoin/bitcoin/blob/master/src/rpcprotocol.h#L34
+                // code -14 = bad passphrase RPC_WALLET_PASSPHRASE_INCORRECT = -14, //! The wallet passphrase entered was incorrect
+                // code -15 = not encrypted RPC_WALLET_WRONG_ENC_STATE      = -15, //! Command given in wrong wallet encryption state (encrypting an encrypted wallet etc.)
+
+                // response is not valid JSON
+                //{ [Error: Error: The wallet passphrase entered was incorrect.] code: -14 }
+                console.log(err);
+                if(err.code == -14) {
+                    res.send({error: { msg: "Bad Passphrase"}});
+                }
+                else if( err.code == -15) {
+                    res.send("Wallet not encrypted");
+                }
+                else {
+                    res.send(err);
+                }
+            }
             console.log("walletpassphrase response");
             console.log(response);
             res.send(response);
