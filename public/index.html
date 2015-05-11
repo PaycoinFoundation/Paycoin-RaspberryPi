@@ -77,8 +77,14 @@
                         <li>
                             <strong>Difficulty:</strong> {{getInfo.difficulty | number:8}}
                         </li>
-                        <li>
-                            <strong>Locked Until:</strong> {{getInfo.unlocked_until * 1000 | fromNow}}
+                        <li ng-if="getInfo.unlocked_until > 0">
+                            Locks {{getInfo.unlocked_until * 1000 | fromNow}}
+                        </li>
+                        <li ng-if="getInfo.unlocked_until == 0">
+                            Locked! <a ui-sref="unlockwallet">Unlock Wallet</a>
+                        </li>
+                        <li ng-if="getInfo.unlocked_until == null">
+                            Unlocked for staking!
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -120,8 +126,8 @@
                             <a ui-sref-active="active" ui-sref="addressbook"><i class="fa fa-book fa-fw"></i> Address Book</a>
                         </li>
                         <li>
-                            <a ui-sref-active="active"><i class="fa fa-book fa-fw"></i> Block Chain Info <span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse">
+                            <a href="#" ui-sref-active="active"><i class="fa fa-book fa-fw"></i> Block Chain Info <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
                                 <li>
                                     <a ui-sref-active="active" ui-sref="blockinfo">Block</a>
                                 </li>
@@ -137,8 +143,8 @@
                             </ul>
                         </li>
                         <li>
-                            <a ui-sref-active="active"><i class="fa fa-cogs fa-fw"></i> Advanced<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse">
+                            <a href="#" ui-sref-active="active"><i class="fa fa-cogs fa-fw"></i> Advanced<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
                                 <li>
                                     <a ui-sref-active="active" ui-sref="addnode">Add Node</a>
                                 </li>
@@ -215,6 +221,7 @@
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
@@ -233,7 +240,6 @@
     <script src="bower_components/morrisjs/morris.js"></script>
     <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
     <script src="bower_components/flot.tooltip/js/jquery.flot.tooltip.js"></script>
-    <script src="bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
     <script src="bower_components/moment/moment.js"></script>
     <!-- endbower -->
     <!-- endbuild -->

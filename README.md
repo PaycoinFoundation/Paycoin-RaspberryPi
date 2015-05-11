@@ -18,7 +18,9 @@ then run:
 
 You will likely be prompted for a password because of sudo.
 
-#### On Linux (ubuntu)
+#### On Linux (ubuntu 14.04)
+
+Note: 15.04 seems to be pretty new and nodejs is not built for it yet. If you get node installed it'll work otherwise stick to 14.04.
 
 Add the PPA
 `sudo add-apt-repository ppa:chris-lea/node.js`
@@ -44,7 +46,7 @@ The <directory> is optional if you do not want the default folder name of `RaspP
 
 ## Setup
 
-Once you have Node.Js installed. In the root directory of the project run `npm install` and `sudo npm bower install -g` Let everything install and then `cd public`.
+Once you have Node.Js installed. In the root directory of the project run `npm install` and `sudo npm install bower -g` Let everything install and then `cd public`.
 
 In the public directory, this is your Angular directory, type `bower install`.
 

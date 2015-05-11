@@ -35,6 +35,7 @@ router.route('/getinfo')
 	.post(function(req, res){
         setServer(req.body.index);
         client.getInfo(function(err,info){
+            if(err) res.send(err);
             if(info)
                 res.send(info);
         })

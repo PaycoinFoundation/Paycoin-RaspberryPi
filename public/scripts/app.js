@@ -150,7 +150,7 @@ angular.module('PaycoinRpiWallet', [
 
         $localStorage.app = $rootScope.app;
 
-        $scope.amtRecent = 50;
+        $scope.amtRecent = 10;
 
         $scope.refreshInfo = function() {
             paycoind.getInfo()
@@ -158,21 +158,26 @@ angular.module('PaycoinRpiWallet', [
                     $rootScope.getInfo = response;
                 }
             );
-            $scope.recentTransactions(50)
+            $scope.recentTransactions($scope.amtRecent)
         };
 
-        $scope.recentTransactions = function(amt){
-            console.log("recentTransactions " + amt);
-            paycoind.listTransactions(amt)
+        //$scope.update = function(){
+        //    console.log("update()");
+        //    $scope.$digest();
+        //};
+
+        $scope.recentTransactions = function(){
+            console.log("recentTransactions ");
+            paycoind.listTransactions($scope.amtRecent)
                 .then(function(response){
                     $rootScope.listTransactions = response;
                 });
         };
 
-        $scope.$watch('amtRecent', function(newVal){
+        $scope.$watch('amtRecent', function(){
             console.log('amtRecent changed');
             $scope.recentTransactions($scope.amtRecent)
-        });
+        }, true);
 
         $scope.refreshInfo();
     }
@@ -180,7 +185,7 @@ angular.module('PaycoinRpiWallet', [
     .run(function($rootScope){
         $rootScope.app = {
             name: 'RaspberryPi Wallet',
-            version: '0.1.5 (09MAY2015)',
+            version: '0.1.5 (10MAY2015)',
             curTitle: ''
         };
     });
