@@ -8,7 +8,8 @@ angular.module('PaycoinRpiWallet', [
     'ngSanitize',
     'ngTouch',
     'ui.router',
-    'ngStorage'
+    'ngStorage',
+    'ui.bootstrap'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider

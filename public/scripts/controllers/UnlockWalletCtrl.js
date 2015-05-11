@@ -5,7 +5,7 @@ angular.module('PaycoinRpiWallet')
         $rootScope.app.curTitle = "Unlock Wallet";
 
         $scope.unlock = function() {
-            paycoind.unlock($scope.passphrase, $scope.duration)
+            paycoind.unlock($scope.passphrase, $scope.duration, $scope.stakingOnly)
                 .then(function (response) {
                     console.log("unlock response");
                     console.log(response);

@@ -2,6 +2,6 @@
 
 angular.module('PaycoinRpiWallet')
     .controller('ConsoleCtrl', function ($scope, $rootScope) {
-        $rootScope.app.curTitle = "Console";
+        $rootScope.app.curTitle = "Console... with Buttons!";
     }
 );

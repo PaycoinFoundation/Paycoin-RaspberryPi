@@ -45,7 +45,7 @@ angular.module('PaycoinRpiWallet')
             repairWallet: repairWallet,
             reserveBalance: reserveBalance,// [<reserve> [amount]]
             sendAlert: sendAlert, // <message> <privatekey> <minver> <maxver> <priority> <id> [cancelupto]
-            sendfrom: sendFrom, // <fromaccount> <topaycoinaddress> <amount> [minconf=1] [comment] [comment-to]
+            sendFrom: sendFrom, // <fromaccount> <topaycoinaddress> <amount> [minconf=1] [comment] [comment-to]
             sendMany: sendMany,//<fromaccount> {address:amount,...} [minconf=1] [comment]
             sendRawTransaction: sendRawTransaction, //<hex string> [checkinputs=0]
             sendToAddress: sendToAddress,// <paycoinaddress> <amount> [comment] [comment-to]
@@ -58,7 +58,7 @@ angular.module('PaycoinRpiWallet')
             submitBlock: submitBlock, //<hex data> [optional-params-obj]
             validateAddress: validateAddress, // <paycoinaddress>
             verifyMessage: verifyMessage, // <paycoinaddress> <signature> <message>
-            walletLock: walletlock,
+            walletLock: walletLock,
             walletPassphrase: walletPassphrase, // <passphrase> <timeout> [mintonly]
             walletPassphraseChange: walletPassphraseChange, // <oldpassphrase> <newpassphrase>
 
@@ -75,8 +75,6 @@ angular.module('PaycoinRpiWallet')
             defaultPayload: {},
             payload: {}
         };
-
-
 
         function checkWallet() {
             return {
@@ -292,13 +290,14 @@ angular.module('PaycoinRpiWallet')
             return deferred.promise;
         }
 
-        function unlock(passphrase, timeout) {
+        function unlock(passphrase, timeout, stakingOnly) {
             var deferred = $q.defer();
 
             var payload = {
                 index: this.serverIndex,
                 passphrase: passphrase,
-                timeout: timeout
+                timeout: timeout,
+                stakingOnly: stakingOnly
             };
 
             $http.post('/api/unlock', payload)
@@ -310,7 +309,7 @@ angular.module('PaycoinRpiWallet')
             return deferred.promise;
         }
 
-        function walletlock() {
+        function walletLock() {
             $http.post('/api/walletlock', {index: this.serverIndex})
                 .then(function (response) {
                     console.log("wallet lock response");

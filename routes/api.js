@@ -165,17 +165,17 @@ router.route('/walletlock')
         });
     });
 
-
 router.route('/unlock')
     .post(function(req,res){
         setServer(req.body.index);
         console.log(req.body);
         //var timeout = res.body.timeout || 120;
-        client.walletPassphrase(req.body.passphrase, req.body.timeout, function(err, response){
+        client.walletPassphrase(req.body.passphrase, req.body.timeout, req.body.stakingOnly, function(err, response){
             if(err) {
                 // source https://github.com/bitcoin/bitcoin/blob/master/src/rpcprotocol.h#L34
                 // code -14 = bad passphrase RPC_WALLET_PASSPHRASE_INCORRECT = -14, //! The wallet passphrase entered was incorrect
                 // code -15 = not encrypted RPC_WALLET_WRONG_ENC_STATE      = -15, //! Command given in wrong wallet encryption state (encrypting an encrypted wallet etc.)
+                // -17, "Error: Wallet is already unlocked, use walletlock first if need to change unlock settings.");
 
                 // response is not valid JSON
                 //{ [Error: Error: The wallet passphrase entered was incorrect.] code: -14 }
@@ -185,6 +185,9 @@ router.route('/unlock')
                 }
                 else if( err.code == -15) {
                     res.send("Wallet not encrypted");
+                }
+                else if( err.code == -17) {
+                    res.send("Error: Wallet is already unlocked, use walletlock first if need to change unlock settings.");
                 }
                 else {
                     res.send(err);

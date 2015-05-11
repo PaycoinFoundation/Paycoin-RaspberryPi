@@ -16,9 +16,10 @@
             <label for="passphrase">Passphrase</label>
             <input type="password" class="form-control" id="passphrase" ng-model="passphrase" placeholder="Passphrase">
         </div>
-        <div class="form-group">
-            <label for="forstaking">For Staking Only</label>
-            <input type="password" class="form-control" id="forstaking" ng-model="forstaking" placeholder="Passphrase">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="stakingOnly"> Staking only
+            </label>
         </div>
         <button type="submit" class="btn btn-success" ng-click="unlock()">Unlock</button>
     </form>
