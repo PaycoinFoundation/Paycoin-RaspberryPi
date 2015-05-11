@@ -1,4 +1,4 @@
-<div ng-show="getInfo.errors" class="alert alert-danger alert-dismissable">
+<div ng-show="getInfo.errors" class="alert alert-danger">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
     {{getInfo.errors}}
 </div>
@@ -19,7 +19,7 @@
                 Connections
             </div>
             <div class="panel-body">
-                <p>{{getInfo.connections}}</p>
+                <p><a ui-sref="peerinfo">{{getInfo.connections}}</a></p>
             </div>
         </div>
     </div>
@@ -86,12 +86,30 @@
                 Staking
             </div>
             <div class="panel-body">
-                <p>
-                    Unlocks {{getInfo.unlocked_until * 1000 | fromNow}}
+                <p ng-if="getInfo.unlocked_until > 0">
+                    Locks {{getInfo.unlocked_until * 1000 | fromNow}}
+                </p>
+                <p ng-if="getInfo.unlocked_until == 0">
+                    Locked! <a ui-sref="unlockwallet">Unlock Wallet</a>
+                </p>
+                <p ng-if="getInfo.unlocked_until == null">
+                    Unlocked for staking!
                 </p>
             </div>
         </div>
     </div>
+</div>
+<div class="col-xs-1">
+    <button class="btn btn-default btn-lg" style="margin-bottom:10px" ng-click="refreshInfo()"><i class="fa fa-refresh fa-3"></i></button>
+</div>
+<div class="col-xs-1">
+    <select class="form-control" ng-model="amtRecent">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+    </select>
+    <pre>{{amtRecent}}</pre>
 </div>
 <div class="row">
     <div class="col-lg-12">
@@ -101,19 +119,19 @@
             </div>
             <div class="panel-body">
                 <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
-                    <li ng-repeat="transaction in listTransactions | orderBy:'time':true" class="list-group-item clearfix b-l-3x {{ transaction.class }}">
+                    <li ng-repeat="transaction in listTransactions | limitTo:amtRecent | orderBy:'time':true" class="list-group-item clearfix b-l-3x {{ transaction.class }}">
                         <a class="avatar thumb pull-left m-r">
-                            <img src="/images/{{transaction.category}}.png">
+                            <img ng-src="/images/{{transaction.category}}.png">
                         </a>
                         <div class="pull-right text-sm text-muted">
                             <span class="hidden-xs pull-right">{{ transaction.time * 1000 | fromNow }}</span><br>
                             <span class="hidden-xs pull-right">{{ transaction.time * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}</span><br>
-                            <span><h6 class="pull-right visible-lg-block visible-md-block">txid: {{ transaction.txid }}</h6></span>
+                            <span><h6 class="pull-right visible-lg-block visible-md-block">txid: <a ui-sref="txidinfo({txid:transaction.txid})">{{ transaction.txid }}</a></h6></span>
                         </div>
                         <div class="clear" ng-if="transaction.category == 'send'">
                             <div><span style="color:#0099cc"><b>{{transaction.amount}} Paycoin</b></span><span class="label bg-light m-l-sm" style="background-color: #0099cc; color:#FFFFFF">{{transaction.label}}</span></div>
                             <div>
-                                <div class="text-ellipsis m-t-xs"><i>You have sent Paycoin to </i><br><b>{{ transaction.address }}</b> from <strong>"{{transaction.account}}"</strong></div>
+                                <div class="text-ellipsis m-t-xs"><i>You have sent Paycoin to </i><br><b><a ui-sref="addressinfo({address:transaction.address})">{{ transaction.address }}</a></b> from <strong>"{{transaction.account}}"</strong></div>
                             </div>
                         </div>
                         <div class="clear" ng-if="transaction.category == 'stake'">
@@ -125,7 +143,7 @@
                         <div class="clear" ng-if="transaction.category == 'receive'">
                             <div><span style="color:#006699"><b>{{transaction.amount}} Paycoin</b></span><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{transaction.label}}</span></div>
                             <div>
-                                <div class="text-ellipsis m-t-xs"><i>You have received Paycoin at </i><br><b>({{transaction.account}}){{ transaction.address }}</b></div>
+                                <div class="text-ellipsis m-t-xs"><i>You have received Paycoin at </i><br><b>({{transaction.account}})<a ui-sref="addressinfo({address:transaction.address})">{{ transaction.address }}</a></b></div>
                             </div>
                         </div>
                         <div class="clear" ng-if="transaction.category == 'immature'">
@@ -133,6 +151,15 @@
                             <div>
                                 <div class="text-ellipsis m-t-xs"><i>You currently have {{transaction.amount}} Paycoin Staking</i><br><b>Confirmations {{ transaction.confirmations }} of 120</b></div>
                             </div>
+                        </div>
+                        <div class="clear" ng-if="transaction.category == 'move'">
+                            <div><span style="color:#006699"><b>{{transaction.amount}} Moved</b></span><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{transaction.label}}</span></div>
+                            <div>
+                                <div class="text-ellipsis m-t-xs"><i>You moved from "{{transaction.account}}" to "{{transaction.otheraccount}}"</i></div>
+                            </div>
+                        </div>
+                        <div class="clear" ng-if="transaction.category == 'orphan'">
+                            <div><span style="color:#006699"><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{transaction.label}}</span></div>
                         </div>
                     </li>
                 </ul>

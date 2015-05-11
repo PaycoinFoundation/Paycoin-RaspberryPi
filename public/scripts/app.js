@@ -44,6 +44,11 @@ angular.module('PaycoinRpiWallet', [
                 controller: 'AddressbookCtrl',
                 templateUrl: 'views/addressbook.html'
             })
+            .state('addnode', {
+                url: '/addnode',
+                controller: 'AddNodeCtrl',
+                templateUrl: 'views/addnode.html'
+            })
             .state('peerinfo', {
                 url: '/peerinfo',
                 controller: 'PeerInfoCtrl',
@@ -64,37 +69,118 @@ angular.module('PaycoinRpiWallet', [
                 controller: 'ContributeCtrl',
                 templateUrl: 'views/contribute.html'
             })
+            .state('txidinfo', {
+                url: '/txid/:txid',
+                controller: 'TXIDCtrl',
+                templateUrl: 'views/txid.html'
+            })
+            .state('addressinfo', {
+                url: '/address/:address',
+                controller: 'AddressInfoCtrl',
+                templateUrl: 'views/address.html'
+            })
+            .state('blockinfo', {
+                url: '/block/:block',
+                controller: 'BlockInfoCtrl',
+                templateUrl: 'views/block.html'
+            })
+            .state('verifymessage', {
+                url: '/verifymessage',
+                controller: 'VerifyMessageCtrl',
+                templateUrl: 'views/verifymessage.html'
+            })
+            .state('signmessage', {
+                url: '/signmessage',
+                controller: 'SignMessageCtrl',
+                templateUrl: 'views/signmessage.html'
+            })
+            .state('lockwallet', {
+                url: '/lockwallet',
+                controller: 'LockWalletCtrl',
+                templateUrl: 'views/lockwallet.html'
+            })
+            .state('unlockwallet', {
+                url: '/unlockwallet',
+                controller: 'UnlockWalletCtrl',
+                templateUrl: 'views/unlockwallet.html'
+            })
+            .state('settxfee', {
+                url: '/settxfee',
+                controller: 'SetTXFeeCtrl',
+                templateUrl: 'views/settxfee.html'
+            })
+            .state('move', {
+                url: '/move',
+                controller: 'MoveCtrl',
+                templateUrl: 'views/move.html'
+            })
+            .state('console', {
+                url: '/console',
+                controller: 'ConsoleCtrl',
+                templateUrl: 'views/console.html'
+            })
   })
-    .controller('MainCtrl', function ($scope, $rootScope) {
-        $rootScope.app = {
-            name: 'Watch Tower',
-            version: '2.0.0(04232015)',
-            curTitle: '',
-            // for chart colors
-            color: {
-                primary: '#7266ba',
-                info:    '#23b7e5',
-                success: '#27c24c',
-                warning: '#fad733',
-                danger:  '#f05050',
-                light:   '#e8eff0',
-                dark:    '#3a3f51',
-                black:   '#1c2b36'
-            },
-            settings: {
-            },
-            account: {
-                xpy: {
-                    total: null,
-                    hot: null,
-                    hotstake: null,
-                    vault: null,
-                    stake: null
-                },
-                transactions: null
-            },
-            serverIndex: 0
+    .controller('MainCtrl', function ($scope, $rootScope, $localStorage, paycoind) {
+        paycoind.getServerInfo()
+            .then(function(response){
+                $localStorage.serverList = response;
+                $scope.serverList = response;
+            });
+
+        $scope.changeServer = function(index){
+            console.log("server changed to " + index);
+            paycoind.setServerIndex(index);
+            $localStorage.chosenServer = $localStorage.serverList[index];
+            $scope.chosenServer = $localStorage.serverList[index];
+            paycoind.getInfo()
+                .then(function (response) {
+                    $rootScope.getInfo = response;
+                }
+            );
+            paycoind.listTransactions()
+                .then(function(response){
+                    $rootScope.listTransactions = response;
+                });
         };
 
+        paycoind.setServerIndex(0);
+
+        $localStorage.chosenServer = $localStorage.serverList[0];
+        $scope.chosenServer = $localStorage.serverList[0];
+
+        $localStorage.app = $rootScope.app;
+
+        $scope.amtRecent = 50;
+
+        $scope.refreshInfo = function() {
+            paycoind.getInfo()
+                .then(function (response) {
+                    $rootScope.getInfo = response;
+                }
+            );
+            $scope.recentTransactions(50)
+        };
+
+        $scope.recentTransactions = function(amt){
+            console.log("recentTransactions " + amt);
+            paycoind.listTransactions(amt)
+                .then(function(response){
+                    $rootScope.listTransactions = response;
+                });
+        };
+
+        $scope.$watch('amtRecent', function(newVal){
+            console.log('amtRecent changed');
+            $scope.recentTransactions($scope.amtRecent)
+        });
+
+        $scope.refreshInfo();
     }
-);
+)
+    .run(function($rootScope){
+        $rootScope.app = {
+            name: 'RaspberryPi Wallet',
+            version: '0.1.5 (09MAY2015)',
+            curTitle: ''
+        };
+    });

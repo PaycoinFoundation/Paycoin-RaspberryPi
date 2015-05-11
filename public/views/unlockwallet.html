@@ -1,0 +1,77 @@
+<div ng-if="error" class="alert alert-danger">
+    ERROR! {{error}}
+</div>
+
+<div ng-if="success" class="alert alert-info">
+    Unlocked for {{duration}}
+</div>
+
+<div class="col-md-2 col-md-offset-2">
+    <form>
+        <div class="form-group">
+            <label for="duration">Duration</label>
+            <input type="number" class="form-control" id="duration" ng-model="duration" placeholder="Duration of unlock">
+        </div>
+        <div class="form-group">
+            <label for="passphrase">Passphrase</label>
+            <input type="password" class="form-control" id="passphrase" ng-model="passphrase" placeholder="Passphrase">
+        </div>
+        <button type="submit" class="btn btn-success" ng-click="unlock()">Unlock</button>
+    </form>
+</div>
+<div class="col-md-3 col-md-offset-2">
+    <table>
+        <tr>
+            <td>
+                Duration
+            </td>
+            <td>
+                Seconds
+            </td>
+        </tr>
+        <tr>
+            <td>5 Minutes</td>
+            <td><a ng-click="duration = 300">300</a></td>
+        </tr>
+        <tr>
+            <td>10 Minutes</td>
+            <td><a ng-click="duration = 600">600</a></td>
+        </tr>
+        <tr>
+            <td>15 Minutes</td>
+            <td><a ng-click="duration = 900">900</a></td>
+        </tr>
+        <tr>
+            <td>20 Minutes</td>
+            <td><a ng-click="duration = 1200">1200</a></td>
+        </tr>
+        <tr>
+            <td>1 Hour</td>
+            <td><a ng-click="duration = 3600">3600</a></td>
+        </tr>
+        <tr>
+            <td>1 Day</td>
+            <td><a ng-click="duration = 86400">86400</a></td>
+        </tr>
+        <tr>
+            <td>1 Week</td>
+            <td><a ng-click="duration = 604800">604800</a></td>
+        </tr>
+        <tr>
+            <td>1 Month</td>
+            <td><a ng-click="duration = 2419200">2419200</a></td>
+        </tr>
+        <tr>
+            <td>3 Months</td>
+            <td><a ng-click="duration = 7257600">7257600</a></td>
+        </tr>
+        <tr>
+            <td>6 Months</td>
+            <td><a ng-click="duration = 14515200">14515200</a></td>
+        </tr>
+        <tr>
+            <td>12 Months</td>
+            <td><a ng-click="duration = 174182400">174182400</a></td>
+        </tr>
+    </table>
+</div>

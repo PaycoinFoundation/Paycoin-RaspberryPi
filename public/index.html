@@ -41,9 +41,62 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Paycoin Wallet - RaspberryPi Edition</a>
+                <a class="navbar-brand" href="index.html">Paycoin Wallet - RaspberryPi Edition - {{chosenServer.name}}</a>
             </div>
             <!-- /.navbar-header -->
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                        <i class="fa fa-info-circle fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user" style="padding:10px; width:225px">
+                        <li>
+                            <strong>Balance:</strong> {{getInfo.balance | number:6}}
+                        </li>
+                        <li>
+                            <strong>New Mint:</strong> {{getInfo.newmint | number:6}}
+                        </li>
+                        <li>
+                            <strong>Stake:</strong> {{getInfo.stake | number:6}}
+                        </li>
+                        <li>
+                            <strong>Wallet Version:</strong> {{getInfo.version }}
+                        </li>
+                        <li>
+                            <strong>Connections:</strong> {{getInfo.connections}}
+                        </li>
+                        <li>
+                            <strong>IP:</strong> {{getInfo.ip }}
+                        </li>
+                        <li>
+                            <strong>Block Height:</strong> {{getInfo.blocks | number:0}}
+                        </li>
+                        <li>
+                            <strong>Money Supply:</strong> {{getInfo.moneysupply | number:6}}
+                        </li>
+                        <li>
+                            <strong>Difficulty:</strong> {{getInfo.difficulty | number:8}}
+                        </li>
+                        <li>
+                            <strong>Locked Until:</strong> {{getInfo.unlocked_until * 1000 | fromNow}}
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                        <i class="fa fa-server fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu" style="padding:10px; width:225px">
+                        <li ng-repeat="server in serverList">
+                            <a ng-click="changeServer($index)">{{server.name}} - {{server.coin}}</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
@@ -67,13 +120,72 @@
                             <a ui-sref-active="active" ui-sref="addressbook"><i class="fa fa-book fa-fw"></i> Address Book</a>
                         </li>
                         <li>
-                            <a ui-sref-active="active" ui-sref="options"><i class="fa fa-cogs fa-fw"></i> Options</a>
+                            <a ui-sref-active="active"><i class="fa fa-book fa-fw"></i> Block Chain Info <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="blockinfo">Block</a>
+                                </li>
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="txidinfo">TXID</a>
+                                </li>
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="addressinfo">Address</a>
+                                </li>
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="peerinfo">Peer Info</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a ui-sref-active="active"><i class="fa fa-cogs fa-fw"></i> Advanced<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="addnode">Add Node</a>
+                                </li>
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="unlockwallet">Unlock Wallet</a>
+                                </li>
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="lockwallet">Lock Wallet</a>
+                                </li>
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="encryptwallet">Encrypt Wallet</a>
+                                </li>
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="signmessage">Sign</a>
+                                </li>
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="verifymessage">Verify</a>
+                                </li>
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="settxfee">Set TX Fee</a>
+                                </li>
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="move">Move</a>
+                                </li>
+                                <li>
+                                    <a ui-sref-active="active" ui-sref="console">Console</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a ui-sref-active="active" ui-sref="about"><i class="fa fa-question-circle fa-fw"></i> About</a>
                         </li>
                         <li>
                             <a ui-sref-active="active" ui-sref="contribute"><i class="fa fa-share-square fa-fw"></i> Contribute</a>
+                        </li>
+                        <li style="padding:15px">
+                            <!--Server:<select class="form-control" ng-model="selectedServer">-->
+                                        <!--<option ng-repeat="server in serverList" value="{{$index}}">{{server.name}}</option>-->
+                                    <!--</select>-->
+
+                        <!--<li ng-repeat="server in serverList">-->
+                        <!--<a ng-click="changeServer($index)">{{server.name}} - {{server.coin}}</a>-->
+                    <!--</li> -->
+                            <strong>{{chosenServer.name}}</strong>
+                        </li>
+                        <li style="padding:15px">
+                            Version: {{app.version}}
                         </li>
                     </ul>
                 </div>
@@ -96,7 +208,6 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
     <!-- build:js(.) scripts/vendor.js -->
@@ -128,19 +239,32 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/AboutCtrl.js"></script>
-        <script src="scripts/controllers/AddressbookCtrl.js"></script>
-        <script src="scripts/controllers/ContributeCtrl.js"></script>
-        <script src="scripts/controllers/DashboardCtrl.js"></script>
-        <script src="scripts/controllers/MintingCtrl.js"></script>
-        <script src="scripts/controllers/OptionsCtrl.js"></script>
-        <script src="scripts/controllers/PeerInfoCtrl.js"></script>
-        <script src="scripts/controllers/ReceiveCtrl.js"></script>
-        <script src="scripts/controllers/SendCtrl.js"></script>
-        <script src="scripts/controllers/TransactionsCtrl.js"></script>
-        <script src="scripts/services/Paycoind.js"></script>
-        <script src="scripts/filter/fromNow.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/AboutCtrl.js"></script>
+    <script src="scripts/controllers/AddNodeCtrl.js"></script>
+    <script src="scripts/controllers/AddressInfoCtrl.js"></script>
+    <script src="scripts/controllers/AddressbookCtrl.js"></script>
+    <script src="scripts/controllers/BlockInfoCtrl.js"></script>
+    <script src="scripts/controllers/ConsoleCtrl.js"></script>
+    <script src="scripts/controllers/ContributeCtrl.js"></script>
+    <script src="scripts/controllers/DashboardCtrl.js"></script>
+    <script src="scripts/controllers/LockWalletCtrl.js"></script>
+    <script src="scripts/controllers/MintingCtrl.js"></script>
+    <script src="scripts/controllers/MoveCtrl.js"></script>
+    <script src="scripts/controllers/OptionsCtrl.js"></script>
+    <script src="scripts/controllers/PeerInfoCtrl.js"></script>
+    <script src="scripts/controllers/ReceiveCtrl.js"></script>
+    <script src="scripts/controllers/SendCtrl.js"></script>
+    <script src="scripts/controllers/SetTXFeeCtrl.js"></script>
+    <script src="scripts/controllers/SignMsgCtrl.js"></script>
+    <script src="scripts/controllers/TransactionsCtrl.js"></script>
+    <script src="scripts/controllers/TXIDCtrl.js"></script>
+    <script src="scripts/controllers/UnlockWalletCtrl.js"></script>
+    <script src="scripts/controllers/VerifyMsgCtrl.js"></script>
+
+
+    <script src="scripts/services/Paycoind.js"></script>
+    <script src="scripts/filter/fromNow.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 

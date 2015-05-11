@@ -22,7 +22,9 @@ app.set('view engine', 'ejs');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(session({
-  secret: '14d9862f6299286aa0d5cee682c5d30eca688d25'
+    resave: true,
+    saveUninitialized: true,
+    secret: '14d9862f6299286aa0d5cee682c5d30eca688d25'
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

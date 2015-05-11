@@ -2,11 +2,11 @@
     <div class="col-lg-12">
         <div class="panel panel-success">
             <div class="panel-heading">
-                All Transactions
+                
             </div>
             <div class="panel-body">
                 <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
-                    <li ng-repeat="trans in listTransactions | orderBy:'time':true" class="list-group-item clearfix b-l-3x {{ trans.class }}">
+                    <li ng-repeat="trans in listTransactions | orderBy:'time':true" ng-if="transaction.category != 'orphan' && transaction.category != 'move'" class="list-group-item clearfix b-l-3x {{ trans.class }}">
                         <a class="avatar thumb pull-left m-r">
                             <img ng-src="/images/{{trans.category}}.png">
                         </a>
@@ -39,15 +39,6 @@
                                 <div class="text-ellipsis m-t-xs"><i>You currently have {{trans.amount}} Paycoin Staking</i><br><b>Confirmations
                                     {{ trans.confirmations }} of 120</b></div>
                             </div>
-                        </div>
-                        <div class="clear" ng-if="transaction.category == 'move'">
-                            <div><span style="color:#006699"><b>{{transaction.amount}} Moved</b></span><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{transaction.label}}</span></div>
-                            <div>
-                                <div class="text-ellipsis m-t-xs"><i>You moved from "{{transaction.account}}" to "{{transaction.otheraccount}}"</i></div>
-                            </div>
-                        </div>
-                        <div class="clear" ng-if="transaction.category == 'orphan'">
-                            <div><span style="color:#006699"><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{transaction.label}}</span></div>
                         </div>
                     </li>
                 </ul>

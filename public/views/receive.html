@@ -1,12 +1,14 @@
+<button ng-model="button" ng-click="newReceiveAddress(address_label)" ng-disabled="address_label == null || address_label == ''" class="btn btn-success">New Address</button> <input type="text" ng-model="address_label" />
+
 <table class="table table-hover">
     <tr>
         <th>Label</th>
         <th>Address(es)</th>
     </tr>
     <tr ng-repeat="acct in accounts">
-        <td>acct.label</td>
+        <td>{{acct.name}}</td>
         <td>
-            <span ng-repeat="add in acct.addresses">add.address</span><br />
+            <span ng-repeat="add in acct.addresses">{{add}}<br /></span>
         </td>
     </tr>
 </table>

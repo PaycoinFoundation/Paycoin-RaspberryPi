@@ -1,0 +1,64 @@
+addmultisigaddress <nrequired> <'["key","key"]'> [account]
+backupwallet <destination>
+checkwallet
+createmultisig nrequired ["key",...]
+createrawtransaction [{"txid":txid,"vout":n},...] {address:amount,...}
+decoderawtransaction <hex string>
+dumpprivkey <paycoinaddress>
+getaccount <paycoinaddress>
+getaccountaddress <account>
+getaddressesbyaccount <account>
+getbalance [account] [minconf=1]
+getblock <hash> [txinfo] [txdetails]
+getblockcount
+getblockhash <index>
+getblocktemplate [params]
+getcheckpoint
+getconnectioncount
+getdifficulty
+getgenerate
+gethashespersec
+getinfo
+getmininginfo
+getnetworkghps
+getnewaddress [account]
+getpeerinfo
+getrawmempool
+getrawtransaction <txid> [verbose=0]
+getreceivedbyaccount <account> [minconf=1]
+getreceivedbyaddress <paycoinaddress> [minconf=1]
+gettransaction <txid>
+gettxout "txid" n ( includemempool )
+getwork [data]
+help [command]
+importprivkey <paycoinprivkey> [label]
+keypoolrefill
+listaccounts [minconf=1]
+listaddressgroupings
+listminting [count=-1] [from=0]
+listreceivedbyaccount [minconf=1] [includeempty=false]
+listreceivedbyaddress [minconf=1] [includeempty=false]
+listsinceblock [blockhash] [target-confirmations]
+listtransactions [account] [count=10] [from=0]
+listunspent [minconf=1] [maxconf=9999999] ["address",...]
+makekeypair [prefix]
+move <fromaccount> <toaccount> <amount> [minconf=1] [comment]
+repairwallet
+reservebalance [<reserve> [amount]]
+sendalert <message> <privatekey> <minver> <maxver> <priority> <id> [cancelupto]
+sendfrom <fromaccount> <topaycoinaddress> <amount> [minconf=1] [comment] [comment-to]
+sendmany <fromaccount> {address:amount,...} [minconf=1] [comment]
+sendrawtransaction <hex string> [checkinputs=0]
+sendtoaddress <paycoinaddress> <amount> [comment] [comment-to]
+setaccount <paycoinaddress> <account>
+setgenerate <generate> [genproclimit]
+settxfee <amount>
+signmessage <paycoinaddress> <message>
+signrawtransaction <hex string> [{"txid":txid,"vout":n,"scriptPubKey":hex},...] [<privatekey1>,...] [sighashtype="ALL"]
+stop
+submitblock <hex data> [optional-params-obj]
+validateaddress <paycoinaddress>
+verifymessage <paycoinaddress> <signature> <message>
+walletlock
+walletpassphrase <passphrase> <timeout> [mintonly]
+walletpassphrasechange <oldpassphrase> <newpassphrase>
