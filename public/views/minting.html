@@ -6,7 +6,7 @@
                     <div class="pull-right text-sm text-muted">
                         <span class="hidden-xs pull-right">{{ mint.time * 1000 | fromNow }}</span><br>
                         <span class="hidden-xs pull-right">{{ mint.time * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}</span><br>
-                        <span><h6 class="pull-right visible-lg-block visible-md-block">txid: {{ mint['input-txid'] }}</h6></span>
+                        <span><h6 class="pull-right visible-lg-block visible-md-block">txid: <a ui-sref="txidinfo({txid:mint['input-txid']})">{{ mint['input-txid'] }}</a></h6></span>
                     </div>
                     <div class="clear">
                         <div>
