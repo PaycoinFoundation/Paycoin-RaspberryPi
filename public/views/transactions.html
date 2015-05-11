@@ -8,7 +8,7 @@
                 <tabset justified="true">
                     <tab heading="Formatted">
                         <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
-                            <li ng-repeat="trans in listTransactions | orderBy:'time':true" class="list-group-item clearfix b-l-3x {{ trans.class }}">
+                            <li ng-repeat="trans in transactions | orderBy:'time':true" class="list-group-item clearfix b-l-3x {{ trans.class }}">
                                 <a class="avatar thumb pull-left m-r">
                                     <img ng-src="/images/{{trans.category}}.png">
                                 </a>
@@ -42,20 +42,20 @@
                                             {{ trans.confirmations }} of 120</b></div>
                                     </div>
                                 </div>
-                                <div class="clear" ng-if="transaction.category == 'move'">
-                                    <div><span style="color:#006699"><b>{{transaction.amount}} Moved</b></span><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{transaction.label}}</span></div>
+                                <div class="clear" ng-if="trans.category == 'move'">
+                                    <div><span style="color:#006699"><b>{{trans.amount}} Moved</b></span><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{trans.label}}</span></div>
                                     <div>
-                                        <div class="text-ellipsis m-t-xs"><i>You moved from "{{transaction.account}}" to "{{transaction.otheraccount}}"</i></div>
+                                        <div class="text-ellipsis m-t-xs"><i>You moved from "{{trans.account}}" to "{{trans.otheraccount}}"</i></div>
                                     </div>
                                 </div>
-                                <div class="clear" ng-if="transaction.category == 'orphan'">
-                                    <div><span style="color:#006699"><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{transaction.label}}</span></div>
+                                <div class="clear" ng-if="trans.category == 'orphan'">
+                                    <div><span style="color:#006699"><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{trans.label}}</span></div>
                                 </div>
                             </li>
                         </ul>
                     </tab>
                     <tab heading="Raw JSON">
-                        <pre>{{listTransactions | json }}</pre>
+                        <pre>{{transactions | json }}</pre>
                     </tab>
                 </tabset>
             </div>

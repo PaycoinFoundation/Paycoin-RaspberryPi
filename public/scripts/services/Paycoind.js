@@ -86,7 +86,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -124,7 +124,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -144,7 +144,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -164,7 +164,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -184,7 +184,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -204,7 +204,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -224,7 +224,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -238,15 +238,14 @@ angular.module('PaycoinRpiWallet')
         function getTransaction(txid) {
             var deferred = $q.defer();
 
-            var payload = {
-                index: this.serverIndex,
-                txid: txid
-            };
+            service.payload = service.defaultPayload;
+            service.payload.txid = txid;
 
-            $http.post('/api/gettransaction', payload)
+            $http.post('/api/gettransaction', service.payload)
                 .then(function (response) {
                     deferred.resolve(response);
                 });
+            service.payload = service.defaultPayload;
             return deferred.promise;
         }
 
@@ -254,7 +253,7 @@ angular.module('PaycoinRpiWallet')
             var deferred = $q.defer();
 
             var payload = {
-                index: this.serverIndex,
+                index: service.serverIndex,
                 txid: txid
             };
 
@@ -269,7 +268,7 @@ angular.module('PaycoinRpiWallet')
             var deferred = $q.defer();
 
             var payload = {
-                index: this.serverIndex,
+                index: service.serverIndex,
                 account: label
             };
 
@@ -283,7 +282,7 @@ angular.module('PaycoinRpiWallet')
         function getPeerInfo() {
             var deferred = $q.defer();
 
-            $http.post('/api/peerinfo', {index: this.serverIndex})
+            $http.post('/api/peerinfo', {index: service.serverIndex})
                 .then(function (response) {
                     deferred.resolve(response);
                 });
@@ -294,7 +293,7 @@ angular.module('PaycoinRpiWallet')
             var deferred = $q.defer();
 
             var payload = {
-                index: this.serverIndex,
+                index: service.serverIndex,
                 passphrase: passphrase,
                 timeout: timeout,
                 stakingOnly: stakingOnly
@@ -310,7 +309,7 @@ angular.module('PaycoinRpiWallet')
         }
 
         function walletLock() {
-            $http.post('/api/walletlock', {index: this.serverIndex})
+            $http.post('/api/walletlock', {index: service.serverIndex})
                 .then(function (response) {
                     console.log("wallet lock response");
                     console.log(response);
@@ -322,7 +321,7 @@ angular.module('PaycoinRpiWallet')
             var deferred = $q.defer();
 
             var payload = {
-                index: this.serverIndex,
+                index: service.serverIndex,
                 paycoindaddress: sendPayload.paycoinaddress,
                 amount: sendPayload.amount
             };
@@ -343,7 +342,7 @@ angular.module('PaycoinRpiWallet')
             var deferred = $q.defer();
 
             var payload = {
-                index: this.serverIndex,
+                index: service.serverIndex,
                 label: label,
                 address: address
             };
@@ -372,17 +371,25 @@ angular.module('PaycoinRpiWallet')
 
         function listAllTransactions() {
             var deferred = $q.defer();
-            $http.post('/api/listalltransactions', {'index': this.serverIndex, 'account': '*'})
+
+            service.payload = service.defaultPayload;
+
+            service.payload.index = service.serverIndex;
+            service.payload.account = '*';
+
+            $http.post('/api/listalltransactions', service.payload)
                 .then(function (response) {
                     deferred.resolve(response.data);
                 });
+
+            service.payload = service.defaultPayload;
 
             return deferred.promise;
         }
 
         function listAddressTransactions(address) {
             var deferred = $q.defer();
-            $http.post('/api/listaddresstransactions', {'index': this.serverIndex, 'address': address})
+            $http.post('/api/listaddresstransactions', {'index': service.serverIndex, 'address': address})
                 .then(function (response) {
                     deferred.resolve(response.data);
                 });
@@ -391,14 +398,16 @@ angular.module('PaycoinRpiWallet')
         }
 
         function setServerIndex(index) {
-            this.serverIndex = index;
+            service.serverIndex = index;
             service.defaultPayload.serverIndex = service.serverIndex;
             service.payload.serverIndex = service.defaultPayload;
         }
 
         function getInfo() {
+
             var deferred = $q.defer();
-            $http.post('/api/getinfo', {'index': this.serverIndex})
+
+            $http.post('/api/getinfo', {'index': service.serverIndex})
                 .then(function (response) {
                     service.basicInfo = response.data;
                     deferred.resolve(response.data);
@@ -412,7 +421,7 @@ angular.module('PaycoinRpiWallet')
             if (qty == null)
                 qty = 10;
 
-            $http.post('/api/listrecenttransactions', {'index': this.serverIndex, qty: parseInt(qty)})
+            $http.post('/api/listrecenttransactions', {'index': service.serverIndex, qty: parseInt(qty)})
                 .then(function (response) {
                     deferred.resolve(response.data);
                 });
@@ -422,7 +431,7 @@ angular.module('PaycoinRpiWallet')
 
         function listAccounts() {
             var deferred = $q.defer();
-            $http.post('/api/listaccounts', {'index': this.serverIndex})
+            $http.post('/api/listaccounts', {'index': service.serverIndex})
                 .then(function (response) {
                     var accounts = response.data;
 
@@ -448,7 +457,7 @@ angular.module('PaycoinRpiWallet')
 
         function getServerInfo() {
             var deferred = $q.defer();
-            $http.post('/api/getserverlist', {'index': this.serverIndex})
+            $http.post('/api/getserverlist', {'index': service.serverIndex})
                 .then(function (response) {
                     deferred.resolve(response.data);
                 });
@@ -459,7 +468,7 @@ angular.module('PaycoinRpiWallet')
         function listMinting() {
             var deferred = $q.defer();
 
-            $http.post('/api/listminting', {'index': this.serverIndex})
+            $http.post('/api/listminting', {'index': service.serverIndex})
                 .then(function (response) {
                     deferred.resolve(response.data);
                 });
@@ -476,7 +485,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -496,7 +505,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -516,7 +525,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -536,7 +545,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -556,7 +565,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -576,7 +585,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -596,7 +605,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -616,7 +625,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -636,7 +645,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -656,7 +665,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -676,7 +685,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -696,7 +705,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -716,7 +725,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -736,7 +745,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -756,7 +765,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -776,7 +785,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -796,7 +805,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -816,7 +825,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -836,7 +845,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -856,7 +865,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -876,7 +885,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -896,7 +905,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -916,7 +925,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -936,7 +945,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -956,7 +965,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -976,7 +985,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -996,7 +1005,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1016,7 +1025,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1036,7 +1045,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1056,7 +1065,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1076,7 +1085,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1096,7 +1105,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1116,7 +1125,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1136,7 +1145,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1156,7 +1165,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1176,7 +1185,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1196,7 +1205,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1216,7 +1225,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1236,7 +1245,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1256,7 +1265,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1276,7 +1285,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)
@@ -1296,7 +1305,7 @@ angular.module('PaycoinRpiWallet')
             //var deferred = $q.defer();
             //
             //var payload = {
-            //    index:this.serverIndex
+            //    index:service.serverIndex
             //};
             //
             //$http.post('/api/',payload)

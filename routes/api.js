@@ -47,13 +47,12 @@ router.route('/listalltransactions')
 
         var num = 10000;
 
+        console.log("serverIndex: " + req.body.index + ", account: " + req.body.account + ", num: " + num);
+
         client.listTransactions(req.body.account, num, function(err,transactions){
-            if(transactions)
-                res.send(transactions);
-            else {
-                console.log(err);
-                res.send(err);
-            }
+            if(err) res.send(err);
+
+            res.send(transactions);
         });
     }
 );
