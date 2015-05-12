@@ -142,14 +142,15 @@ router.route('/addtoaddressbook')
 
 router.route('/sendtoaddress')
     .post(function(req,res){
-        //console.log(req.body);
+        console.log('/sendtoaddress response');
+        console.log(req.body);
+
         setServer(req.body.index);
-        client.sendToAddress(req.body.paycoinaddress, parseFloat(req.body.amount), function(err,response){
+
+        client.sendToAddress(req.body.paycoinaddress, req.body.amount, function(err,response){
             if(err) {
-                console.log(err);
                 res.send(err);
             }
-            console.log(response);
             res.send(response);
         })
     });
@@ -160,7 +161,10 @@ router.route('/walletlock')
         console.log(req.body);
         client.walletLock(function(err,response){
            if(err) res.send(err);
-           res.send("success")
+           res.send({
+               success: true,
+               response: response
+           })
         });
     });
 

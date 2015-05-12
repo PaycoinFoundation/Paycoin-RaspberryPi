@@ -71,9 +71,7 @@ angular.module('PaycoinRpiWallet')
             serverIndex: -1,
             basicInfo: {},
             getServerInfo: getServerInfo,
-            setServerIndex: setServerIndex,
-            defaultPayload: {},
-            payload: {}
+            setServerIndex: setServerIndex
         };
 
         function checkWallet() {
@@ -97,21 +95,18 @@ angular.module('PaycoinRpiWallet')
             //return deferred.promise;
         }
 
-        function decodeRawTransaction(rawtrans) {
+        function decodeRawTransaction(rawtrans){
             var deferred = $q.defer();
 
-            service.payload = service.defaultPayload;
-            service.payload.rawtrans = rawtrans;
+            var payload = {
+                index: service.serverIndex,
+                rawtrans: rawtrans
+            };
 
-            console.log("service.payload");
-            console.log(service.payload);
-            console.log("service.defaultPayload");
-            console.log(service.defaultPayload);
-            $http.post('/api/decoderawtransaction', service.payload)
-                .then(function (response) {
+            $http.post('/api/decoderawtransaction',payload)
+                .then(function(response){
                     deferred.resolve(response);
                 });
-            service.payload = service.defaultPayload;
             return deferred.promise;
         }
 
@@ -238,14 +233,16 @@ angular.module('PaycoinRpiWallet')
         function getTransaction(txid) {
             var deferred = $q.defer();
 
-            service.payload = service.defaultPayload;
-            service.payload.txid = txid;
+            var payload = {
+                index: service.serverIndex,
+                txid: txid
+            };
 
-            $http.post('/api/gettransaction', service.payload)
+            $http.post('/api/gettransaction', payload)
                 .then(function (response) {
                     deferred.resolve(response);
                 });
-            service.payload = service.defaultPayload;
+
             return deferred.promise;
         }
 
@@ -320,9 +317,13 @@ angular.module('PaycoinRpiWallet')
 
             var deferred = $q.defer();
 
+            console.log(sendPayload);
+
+            sendPayload.amount = parseFloat(sendPayload.amount);
+
             var payload = {
                 index: service.serverIndex,
-                paycoindaddress: sendPayload.paycoinaddress,
+                paycoinaddress: sendPayload.paycoinaddress,
                 amount: sendPayload.amount
             };
 
@@ -372,17 +373,15 @@ angular.module('PaycoinRpiWallet')
         function listAllTransactions() {
             var deferred = $q.defer();
 
-            service.payload = service.defaultPayload;
+            var payload = {
+                index: service.serverIndex,
+                account: '*'
+            };
 
-            service.payload.index = service.serverIndex;
-            service.payload.account = '*';
-
-            $http.post('/api/listalltransactions', service.payload)
+            $http.post('/api/listalltransactions', payload)
                 .then(function (response) {
                     deferred.resolve(response.data);
                 });
-
-            service.payload = service.defaultPayload;
 
             return deferred.promise;
         }
@@ -399,8 +398,6 @@ angular.module('PaycoinRpiWallet')
 
         function setServerIndex(index) {
             service.serverIndex = index;
-            service.defaultPayload.serverIndex = service.serverIndex;
-            service.payload.serverIndex = service.defaultPayload;
         }
 
         function getInfo() {
