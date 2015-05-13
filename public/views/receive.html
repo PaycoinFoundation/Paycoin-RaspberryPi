@@ -4,11 +4,15 @@
     <tr>
         <th>Label</th>
         <th>Address(es)</th>
+        <th>Balance</th>
     </tr>
     <tr ng-repeat="acct in accounts">
         <td>{{acct.name}}</td>
         <td>
             <span ng-repeat="add in acct.addresses">{{add}}<br /></span>
+        </td>
+        <td>
+            {{acct.balance}}
         </td>
     </tr>
 </table>

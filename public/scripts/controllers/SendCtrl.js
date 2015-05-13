@@ -7,6 +7,8 @@ angular.module('PaycoinRpiWallet')
 
         $rootScope.app.curTitle = "Send Coins";
 
+        $scope.chosenServer = $localStorage.chosenServer;
+
         $scope.getAddressBook = function(){
             $http.get('/api/getaddressbook')
                 .then(function(response){
@@ -24,10 +26,16 @@ angular.module('PaycoinRpiWallet')
         };
 
         $scope.sendcoin = function(){
+
+            // TODO: refactor to flatten nested promises
+
             if($localStorage.chosenServer.locked == true){
                 console.log("chosenServer locked");
                 console.log($scope.send);
-                paycoind.unlock($scope.send.passphrase, 60)
+                if($localStorage.chosenServer.stakingOnly){
+                    paycoind.walletLock();
+                }
+                paycoind.unlock($scope.send.passphrase, 15, false)
                     .then(function(response){
                         console.log("unlock response");
                         console.log(response);
@@ -40,7 +48,23 @@ angular.module('PaycoinRpiWallet')
                                 } else {
                                     $scope.error_code = response.code;
                                 }
-                                paycoind.walletLock();
+                                paycoind.walletLock()
+                                    .then(function(){
+                                        if($localStorage.chosenServer.stakingOnly) {
+                                            paycoind.unlock($scope.send.passphrase, 32140800, true)
+                                                .then(function (response) {
+                                                    console.log("unlock response");
+                                                    console.log(response);
+
+                                                    if (response.data.error) {
+                                                        $scope.error = response.data.error.msg;
+                                                    } else {
+                                                        $scope.success = true;
+                                                    }
+
+                                                })
+                                        }
+                                    });
                             });
                     })
             } else {
@@ -48,7 +72,11 @@ angular.module('PaycoinRpiWallet')
                 paycoind.sendToAddress($scope.send)
                     .then(function(response){
                         console.log(response);
-                        $scope.successful_txid = response;
+                        if(!response.code) {
+                            $scope.successful_txid = response;
+                        } else {
+                            $scope.error_code = response.code;
+                        }
                     });
             }
         };

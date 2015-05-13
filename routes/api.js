@@ -149,6 +149,7 @@ router.route('/sendtoaddress')
 
         client.sendToAddress(req.body.paycoinaddress, req.body.amount, function(err,response){
             if(err) {
+                console.log(err);
                 res.send(err);
             }
             res.send(response);

@@ -176,7 +176,7 @@ angular.module('PaycoinRpiWallet', [
     .run(function($rootScope){
         $rootScope.app = {
             name: 'RaspberryPi Wallet',
-            version: '0.1.5 (11MAY2015)',
+            version: '0.1.5 (12MAY2015)',
             curTitle: ''
         };
     });
