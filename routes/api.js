@@ -7,13 +7,47 @@ var dataJSON = require('../data/data.json');
 var bitcoin = require('bitcoin');
 var client;
 
+var exec = require('child_process').exec;
+
 //var config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
 
 var options = {};
 
+router.route('/nodeversion')
+    .get(function(req,res){
+        var response ={};
+
+        exec('node -v', function(error, stdout, stderr) {
+            response.node = {
+                stdout: stdout,
+                stderr: stderr,
+                error: error
+            };
+
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
+
+            if (error !== null) {
+                console.log('exec error: ' + error);
+            }
+            res.send(response);
+        });
+
+
+    });
+
 router.route('/getserverlist')
     .post(function(req, res){
         res.send(configJSON);
+    });
+
+router.route('/checkwallet')
+    .post(function(req,res){
+        setServer(req.body.index);
+        client.cmd('checkwallet',function(err, response){
+            if(err) res.send(err);
+            res.send(response);
+        })
     });
 
 router.route('/addnode')
@@ -35,9 +69,12 @@ router.route('/getinfo')
 	.post(function(req, res){
         setServer(req.body.index);
         client.getInfo(function(err,info){
-            if(err) res.send(err);
-            if(info)
+            if(err) {
+                res.send(err);
+            }
+            if(info) {
                 res.send(info);
+            }
         })
 	});
 
@@ -76,10 +113,13 @@ router.route('/listrecenttransactions')
     .post(function(req,res){
         setServer(req.body.index);
 
+        console.log("/listrecenttransactions");
+        console.log("setServer("+req.body.index+");");
         client.listTransactions("*", req.body.qty, function(err,transactions){
             if(transactions)
                 res.send(transactions);
             else {
+
                 console.log(err);
                 res.send(err);
             }
@@ -172,6 +212,8 @@ router.route('/walletlock')
 router.route('/unlock')
     .post(function(req,res){
         setServer(req.body.index);
+        console.log("/unlock called");
+        console.log("req.body");
         console.log(req.body);
         //var timeout = res.body.timeout || 120;
         client.walletPassphrase(req.body.passphrase, req.body.timeout, req.body.stakingOnly, function(err, response){
@@ -279,6 +321,16 @@ router.route('/listaddresstransactions')
                 if (err) res.send(err);
                 res.send(response);
             })
+        });
+    });
+
+router.route('/listunspent')
+    .post(function(req,res){
+        setServer(req.body.index);
+
+        client.listUnspent(function(err, response){
+            if (err) res.send(err);
+            res.send(response);
         });
     });
 

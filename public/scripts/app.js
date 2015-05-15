@@ -131,25 +131,18 @@ angular.module('PaycoinRpiWallet', [
 
         $scope.changeServer = function(index){
             paycoind.setServerIndex(index);
+            $scope.chosenServer = $localStorage.serverList[index];
+
             $localStorage.chosenServer = $localStorage.serverList[index];
             $localStorage.chosenServerIndex = index;
-
-            $scope.chosenServer = $localStorage.serverList[index];
-            paycoind.getInfo()
-                .then(function (response) {
-                    $rootScope.getInfo = response;
-                }
-            );
-            paycoind.listTransactions()
-                .then(function(response){
-                    $rootScope.listTransactions = response;
-                });
         };
 
         if($localStorage.chosenServerIndex) {
-            paycoind.setServerIndex($localStorage.chosenServerIndex);
+            $scope.changeServer($localStorage.chosenServerIndex);
+            //paycoind.setServerIndex($localStorage.chosenServerIndex);
         } else {
-            paycoind.setServerIndex(0);
+            $scope.changeServer(0);
+            //paycoind.setServerIndex(0);
         }
 
         $localStorage.chosenServer = $localStorage.serverList[0];
@@ -171,12 +164,37 @@ angular.module('PaycoinRpiWallet', [
         };
 
         $scope.refreshInfo();
+
+        $scope.$watch('chosenServer', function(){
+            console.log("chosenServer changed!");
+            paycoind.listAccounts()
+                .then(function (response) {
+                    $scope.accounts = response;
+                    $localStorage.accounts = response;
+                    $localStorage.accounts.serverIndex = $localStorage.chosenServerIndex;
+                });
+            paycoind.getInfo()
+                .then(function (response) {
+                    $rootScope.getInfo = response;
+                }
+            );
+            paycoind.listTransactions()
+                .then(function(response){
+                    $rootScope.listTransactions = response;
+                });
+            paycoind.listMinting()
+                .then(function(response){
+                    $localStorage.listMinting = response;
+                    $rootScope.listMinting = response;
+                });
+            $scope.refreshInfo();
+        }, true)
     }
 )
     .run(function($rootScope){
         $rootScope.app = {
             name: 'RaspberryPi Wallet',
-            version: '0.1.5 (12MAY2015)',
+            version: '0.1.5 (13MAY2015)',
             curTitle: ''
         };
     });

@@ -17,6 +17,8 @@ angular.module('PaycoinRpiWallet')
                 })
         };
 
+        $scope.accounts = $localStorage.accounts;
+
         $scope.getAddressBook();
 
         $scope.sendTo = function(add){
@@ -96,15 +98,26 @@ angular.module('PaycoinRpiWallet')
         $scope.removeAddress = function(address){
             console.log("removing " + address.address);
             $http.post('/api/removeaddress', address)
-                .then(function(response){
+                .then(function(){
                     $scope.getAddressBook();
                 });
         };
+
+        paycoind.listAccounts()
+            .then(function (response) {
+                $scope.accounts = response;
+                $localStorage.accounts = response;
+                $localStorage.accounts.serverIndex = $localStorage.chosenServerIndex;
+            });
 
         $scope.$watch('send.amount', function(newVal, oldVal){
             if(newVal == "!"){
                 $scope.send.amount = $rootScope.getInfo.balance;
             }
+        });
+
+        $scope.$watch($localStorage.accounts, function(){
+            $scope.accounts = $localStorage.accounts;
         });
     }
 );

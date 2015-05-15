@@ -75,24 +75,19 @@ angular.module('PaycoinRpiWallet')
         };
 
         function checkWallet() {
-            return {
-                error: {
-                    msg: "Not implemented yet"
-                }
+
+            var deferred = $q.defer();
+
+            var payload = {
+                index:service.serverIndex
             };
 
-            //var deferred = $q.defer();
-            //
-            //var payload = {
-            //    index:service.serverIndex
-            //};
-            //
-            //$http.post('/api/',payload)
-            //    .then(function(response){
-            //        deferred.resolve(response);
-            //    });
-            //
-            //return deferred.promise;
+            $http.post('/api/checkwallet',payload)
+                .then(function(response){
+                    deferred.resolve(response);
+                });
+
+            return deferred.promise;
         }
 
         function decodeRawTransaction(rawtrans){
@@ -922,23 +917,18 @@ angular.module('PaycoinRpiWallet')
         }
 
         function listUnspent() {
-            return {
-                error: {
-                    msg: "Not implemented yet"
-                }
+            var deferred = $q.defer();
+
+            var payload = {
+                index:service.serverIndex
             };
-            //var deferred = $q.defer();
-            //
-            //var payload = {
-            //    index:service.serverIndex
-            //};
-            //
-            //$http.post('/api/',payload)
-            //    .then(function(response){
-            //        deferred.resolve(response);
-            //    });
-            //
-            //return deferred.promise;
+
+            $http.post('/api/listunspent',payload)
+                .then(function(response){
+                    deferred.resolve(response);
+                });
+
+            return deferred.promise;
         }
 
         function makeKeyPair() {

@@ -7,15 +7,23 @@
             <div class="panel-body">
                 <form class="form-horizontal">
                     <div class="form-group">
+                        <label for="address_label" class="col-sm-2 control-label">Label: </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model="address_label" id="address_label" placeholder="Enter a label for this address to add it to your address book">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="paycoinaddress" class="col-sm-2 control-label">Pay To:</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" ng-model="send.paycoinaddress" id="paycoinaddress" placeholder="Enter a Paycoin address">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="address_label" class="col-sm-2 control-label">Label: </label>
+                        <label for="sendfrom" class="col-sm-2 control-label">Send From:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" ng-model="address_label" id="address_label" placeholder="Enter a label for this address to add it to your address book">
+                            <select class="form-control" id="sendfrom" ng-model="send.fromaccount">
+                                <option ng-repeat="account in accounts">{{account.name}} | {{account.balance}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -74,4 +82,3 @@
     <em>TODO: Allow sending to multiple addresses in one transaction</em><br />
     <em><strike>TODO: Use the ! symbol to automatically fill in your account balance</strike> <strong>DONE!</strong></em>
 </div>
-

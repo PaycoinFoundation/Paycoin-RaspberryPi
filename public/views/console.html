@@ -34,10 +34,10 @@
         <div class="panel-body">
             <tabset justified="true">
                 <tab heading="Command">
-                    Not Ready
+                    <button class="btn btn-primary btn-block" ng-click="checkWallet()">Check Wallet</button>
                 </tab>
                 <tab heading="Response">
-                    <pre>Not Ready</pre>
+                    <pre>{{checkWalletResponse | json}}</pre>
                 </tab>
             </tabset>
         </div>
@@ -619,10 +619,10 @@
         <div class="panel-body">
             <tabset justified="true">
                 <tab heading="Command">
-                    Not Ready
+                    <button class="btn btn-primary btn-block" ng-click="listUnspent()">List Unspent</button>
                 </tab>
                 <tab heading="Response">
-                    <pre>Not Ready</pre>
+                    <pre>{{listUnspentResponse|json}}</pre>
                 </tab>
             </tabset>
         </div>
