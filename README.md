@@ -9,7 +9,7 @@ Raspberry PI Paycoin Web Wallet
 To install Node.JS on the Raspberry Pi run the following commands.
 
 Download a prebuilt ARM version of node.js by running this command:
- 
+
 `wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz`
 
 then run:
@@ -37,6 +37,8 @@ Note: 15.04 seems to be pretty new and nodejs is not built for it yet. If you ge
 * Install SQLite
 `sudo apt-get install sqlite3 libsqlite3-dev`
 
+* Install Git
+`sudo apt-get install git`
 * Install Nodemon (if you are making changes, it'll make it easier with nodemon)
 `sudo npm install nodemon -g`
 
@@ -65,6 +67,8 @@ The `paycoin.conf` that is on the raspberryPi is configured with the default set
 ## Run the server
 
 From the root directory run `npm start`
+
+When started, you may point your browser to `localhost:3000`
 
 If you are using nodemon run `nodemon --ignore public/`
  
