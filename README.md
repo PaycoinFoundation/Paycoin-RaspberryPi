@@ -64,6 +64,14 @@ Within the `config.json` change the rpcuser, rpcpassword, and rpcport to what ev
 
 The `paycoin.conf` that is on the raspberryPi is configured with the default settings so you wont have to do anything. On any other system you need to set it to the correct parameters.
 
+## Figure Out The rPi IP Address
+
+There are a couple ways to figure this out. The most straight forward way is to use your router and look at connected devices and get the IP from that. The device name is `paycoind`. 
+
+If you have an iPhone or Android phone you can download a free program called `FING` which detects all the detected devices on your wifi connection.
+
+Using `FING` it'll be `paycoind` device. 
+
 ## Run the server
 
 From the root directory run `npm start`
