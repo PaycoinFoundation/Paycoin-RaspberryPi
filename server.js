@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var http = require('http');
+var sequelize = require('sequelize');
 
 //var rpc = require('node-json-rpc');
 

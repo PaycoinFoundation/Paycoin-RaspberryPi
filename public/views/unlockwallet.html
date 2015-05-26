@@ -3,7 +3,7 @@
 </div>
 
 <div ng-if="success" class="alert alert-info">
-    Unlocked for {{duration}}
+    Unlocked for {{duration}} seconds
 </div>
 
 <div class="col-md-2 col-md-offset-2">
@@ -15,6 +15,11 @@
         <div class="form-group">
             <label for="passphrase">Passphrase</label>
             <input type="password" class="form-control" id="passphrase" ng-model="passphrase" placeholder="Passphrase">
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="stakingOnly"> Staking only
+            </label>
         </div>
         <button type="submit" class="btn btn-success" ng-click="unlock()">Unlock</button>
     </form>
@@ -59,19 +64,19 @@
         </tr>
         <tr>
             <td>1 Month</td>
-            <td><a ng-click="duration = 2419200">2419200</a></td>
+            <td><a ng-click="duration = 2678400">2678400</a></td>
         </tr>
         <tr>
             <td>3 Months</td>
-            <td><a ng-click="duration = 7257600">7257600</a></td>
+            <td><a ng-click="duration = 8035200">8035200</a></td>
         </tr>
         <tr>
             <td>6 Months</td>
-            <td><a ng-click="duration = 14515200">14515200</a></td>
+            <td><a ng-click="duration = 16070400">16070400</a></td>
         </tr>
         <tr>
             <td>12 Months</td>
-            <td><a ng-click="duration = 174182400">174182400</a></td>
+            <td><a ng-click="duration = 32140800">32140800</a></td>
         </tr>
     </table>
 </div>

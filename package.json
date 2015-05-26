@@ -1,6 +1,6 @@
 {
   "name": "paycoin-wallet-rpi",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
@@ -22,5 +22,9 @@
     "sequelize": "^2.1.3",
     "serve-favicon": "~2.1.3",
     "sqlite3": "^3.0.8"
+  },
+  "devDependencies": {
+    "should": "^6.0.1",
+    "supertest": "^1.0.0"
   }
 }

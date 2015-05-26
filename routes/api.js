@@ -7,13 +7,47 @@ var dataJSON = require('../data/data.json');
 var bitcoin = require('bitcoin');
 var client;
 
+var exec = require('child_process').exec;
+
 //var config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
 
 var options = {};
 
+router.route('/nodeversion')
+    .get(function(req,res){
+        var response ={};
+
+        exec('node -v', function(error, stdout, stderr) {
+            response.node = {
+                stdout: stdout,
+                stderr: stderr,
+                error: error
+            };
+
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
+
+            if (error !== null) {
+                console.log('exec error: ' + error);
+            }
+            res.send(response);
+        });
+
+
+    });
+
 router.route('/getserverlist')
     .post(function(req, res){
         res.send(configJSON);
+    });
+
+router.route('/checkwallet')
+    .post(function(req,res){
+        setServer(req.body.index);
+        client.cmd('checkwallet',function(err, response){
+            if(err) res.send(err);
+            res.send(response);
+        })
     });
 
 router.route('/addnode')
@@ -35,8 +69,12 @@ router.route('/getinfo')
 	.post(function(req, res){
         setServer(req.body.index);
         client.getInfo(function(err,info){
-            if(info)
+            if(err) {
+                res.send(err);
+            }
+            if(info) {
                 res.send(info);
+            }
         })
 	});
 
@@ -46,13 +84,12 @@ router.route('/listalltransactions')
 
         var num = 10000;
 
+        console.log("serverIndex: " + req.body.index + ", account: " + req.body.account + ", num: " + num);
+
         client.listTransactions(req.body.account, num, function(err,transactions){
-            if(transactions)
-                res.send(transactions);
-            else {
-                console.log(err);
-                res.send(err);
-            }
+            if(err) res.send(err);
+
+            res.send(transactions);
         });
     }
 );
@@ -76,10 +113,13 @@ router.route('/listrecenttransactions')
     .post(function(req,res){
         setServer(req.body.index);
 
+        console.log("/listrecenttransactions");
+        console.log("setServer("+req.body.index+");");
         client.listTransactions("*", req.body.qty, function(err,transactions){
             if(transactions)
                 res.send(transactions);
             else {
+
                 console.log(err);
                 res.send(err);
             }
@@ -142,14 +182,16 @@ router.route('/addtoaddressbook')
 
 router.route('/sendtoaddress')
     .post(function(req,res){
-        //console.log(req.body);
+        console.log('/sendtoaddress response');
+        console.log(req.body);
+
         setServer(req.body.index);
-        client.sendToAddress(req.body.paycoinaddress, parseFloat(req.body.amount), function(err,response){
+
+        client.sendToAddress(req.body.paycoinaddress, req.body.amount, function(err,response){
             if(err) {
                 console.log(err);
                 res.send(err);
             }
-            console.log(response);
             res.send(response);
         })
     });
@@ -160,21 +202,26 @@ router.route('/walletlock')
         console.log(req.body);
         client.walletLock(function(err,response){
            if(err) res.send(err);
-           res.send("success")
+           res.send({
+               success: true,
+               response: response
+           })
         });
     });
-
 
 router.route('/unlock')
     .post(function(req,res){
         setServer(req.body.index);
+        console.log("/unlock called");
+        console.log("req.body");
         console.log(req.body);
         //var timeout = res.body.timeout || 120;
-        client.walletPassphrase(req.body.passphrase, req.body.timeout, function(err, response){
+        client.walletPassphrase(req.body.passphrase, req.body.timeout, req.body.stakingOnly, function(err, response){
             if(err) {
                 // source https://github.com/bitcoin/bitcoin/blob/master/src/rpcprotocol.h#L34
                 // code -14 = bad passphrase RPC_WALLET_PASSPHRASE_INCORRECT = -14, //! The wallet passphrase entered was incorrect
                 // code -15 = not encrypted RPC_WALLET_WRONG_ENC_STATE      = -15, //! Command given in wrong wallet encryption state (encrypting an encrypted wallet etc.)
+                // -17, "Error: Wallet is already unlocked, use walletlock first if need to change unlock settings.");
 
                 // response is not valid JSON
                 //{ [Error: Error: The wallet passphrase entered was incorrect.] code: -14 }
@@ -184,6 +231,9 @@ router.route('/unlock')
                 }
                 else if( err.code == -15) {
                     res.send("Wallet not encrypted");
+                }
+                else if( err.code == -17) {
+                    res.send("Error: Wallet is already unlocked, use walletlock first if need to change unlock settings.");
                 }
                 else {
                     res.send(err);
@@ -271,6 +321,16 @@ router.route('/listaddresstransactions')
                 if (err) res.send(err);
                 res.send(response);
             })
+        });
+    });
+
+router.route('/listunspent')
+    .post(function(req,res){
+        setServer(req.body.index);
+
+        client.listUnspent(function(err, response){
+            if (err) res.send(err);
+            res.send(response);
         });
     });
 

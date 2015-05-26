@@ -1,34 +1,42 @@
 <div class="col-lg-12">
-    <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
-        <li ng-repeat="mint in listMinting | orderBy:'time':true" class="list-group-item clearfix b-l-3x">
-            <div class="pull-right text-sm text-muted">
-                <span class="hidden-xs pull-right">{{ mint.time * 1000 | fromNow }}</span><br>
-                <span class="hidden-xs pull-right">{{ mint.time * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}</span><br>
-                <span><h6 class="pull-right visible-lg-block visible-md-block">txid: {{ mint['input-txid'] }}</h6></span>
-            </div>
-            <div class="clear">
-                <div>
+    <tabset justified="true">
+        <tab heading="Formatted">
+            <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
+                <li ng-repeat="mint in listMinting | orderBy:'time':true" class="list-group-item clearfix b-l-3x">
+                    <div class="pull-right text-sm text-muted">
+                        <span class="hidden-xs pull-right">{{ mint.time * 1000 | fromNow }}</span><br>
+                        <span class="hidden-xs pull-right">{{ mint.time * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}</span><br>
+                        <span><h6 class="pull-right visible-lg-block visible-md-block">txid: <a ui-sref="txidinfo({txid:mint['input-txid']})">{{ mint['input-txid'] }}</a></h6></span>
+                    </div>
+                    <div class="clear">
+                        <div>
                     <span style="color:#0099cc">
                         <b>{{mint.amount / 1000000}} Paycoin in "{{mint.account}}" Address: {{mint.address}}</b>
                     </span>
                     <span class="label bg-light m-l-sm" style="background-color: #0099cc; color:#FFFFFF">
                         {{mint.status}}
                     </span>
-                </div>
-                <div>
-                    <div class="text-ellipsis m-t-xs">
-                        10-min Probability: <strong>{{mint['minting-probability-10min'] * 100 | number:2}}%</strong>  |
-                        24h Probability: <strong>{{mint['minting-probability-24h'] * 100 | number:2}}%</strong> |
-                        30d Probability: <strong>{{mint['minting-probability-30d'] * 100 | number:2}}%</strong> |
-                        90d Probability: <strong>{{mint['minting-probability-90d'] * 100 | number:2}}%</strong>
+                        </div>
+                        <div>
+                            <div class="text-ellipsis m-t-xs">
+                                10-min Probability: <strong>{{mint['minting-probability-10min'] * 100 | number:2}}%</strong>  |
+                                24h Probability: <strong>{{mint['minting-probability-24h'] * 100 | number:2}}%</strong> |
+                                30d Probability: <strong>{{mint['minting-probability-30d'] * 100 | number:2}}%</strong> |
+                                90d Probability: <strong>{{mint['minting-probability-90d'] * 100 | number:2}}%</strong>
+                            </div>
+                            <div class="text-ellipsis m-t-xs">
+                                Age in Day: <strong>{{ mint['age-in-day']}}</strong> |
+                                Coin Day Weight: <strong>{{ mint['coin-day-weight'] }}</strong>
+                                Attempts: <strong>{{ mint['attempts'] }}</strong>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-ellipsis m-t-xs">
-                        Age in Day: <strong>{{ mint['age-in-day']}}</strong> |
-                        Coin Day Weight: <strong>{{ mint['coin-day-weight'] }}</strong>
-                        Attempts: <strong>{{ mint['attempts'] }}</strong>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </ul>
+                </li>
+            </ul>
+        </tab>
+        <tab heading="Raw JSON">
+            <pre>{{listMinting | json }}</pre>
+        </tab>
+    </tabset>
+
 </div>

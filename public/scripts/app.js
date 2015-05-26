@@ -8,7 +8,8 @@ angular.module('PaycoinRpiWallet', [
     'ngSanitize',
     'ngTouch',
     'ui.router',
-    'ngStorage'
+    'ngStorage',
+    'ui.bootstrap'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider
@@ -121,6 +122,7 @@ angular.module('PaycoinRpiWallet', [
             })
   })
     .controller('MainCtrl', function ($scope, $rootScope, $localStorage, paycoind) {
+
         paycoind.getServerInfo()
             .then(function(response){
                 $localStorage.serverList = response;
@@ -128,10 +130,49 @@ angular.module('PaycoinRpiWallet', [
             });
 
         $scope.changeServer = function(index){
-            console.log("server changed to " + index);
             paycoind.setServerIndex(index);
-            $localStorage.chosenServer = $localStorage.serverList[index];
             $scope.chosenServer = $localStorage.serverList[index];
+
+            $localStorage.chosenServer = $localStorage.serverList[index];
+            $localStorage.chosenServerIndex = index;
+        };
+
+        if($localStorage.chosenServerIndex) {
+            $scope.changeServer($localStorage.chosenServerIndex);
+            //paycoind.setServerIndex($localStorage.chosenServerIndex);
+        } else {
+            $scope.changeServer(0);
+            //paycoind.setServerIndex(0);
+        }
+
+        $localStorage.chosenServer = $localStorage.serverList[0];
+        $scope.chosenServer = $localStorage.serverList[0];
+
+        $localStorage.app = $rootScope.app;
+
+        $scope.refreshInfo = function() {
+            paycoind.getInfo()
+                .then(function (response) {
+                    $rootScope.getInfo = response;
+                }
+            );
+            console.log("recentTransactions ");
+            paycoind.listTransactions(10)
+                .then(function(response){
+                    $rootScope.listTransactions = response;
+                });
+        };
+
+        $scope.refreshInfo();
+
+        $scope.$watch('chosenServer', function(){
+            console.log("chosenServer changed!");
+            paycoind.listAccounts()
+                .then(function (response) {
+                    $scope.accounts = response;
+                    $localStorage.accounts = response;
+                    $localStorage.accounts.serverIndex = $localStorage.chosenServerIndex;
+                });
             paycoind.getInfo()
                 .then(function (response) {
                     $rootScope.getInfo = response;
@@ -141,46 +182,19 @@ angular.module('PaycoinRpiWallet', [
                 .then(function(response){
                     $rootScope.listTransactions = response;
                 });
-        };
-
-        paycoind.setServerIndex(0);
-
-        $localStorage.chosenServer = $localStorage.serverList[0];
-        $scope.chosenServer = $localStorage.serverList[0];
-
-        $localStorage.app = $rootScope.app;
-
-        $scope.amtRecent = 50;
-
-        $scope.refreshInfo = function() {
-            paycoind.getInfo()
-                .then(function (response) {
-                    $rootScope.getInfo = response;
-                }
-            );
-            $scope.recentTransactions(50)
-        };
-
-        $scope.recentTransactions = function(amt){
-            console.log("recentTransactions " + amt);
-            paycoind.listTransactions(amt)
+            paycoind.listMinting()
                 .then(function(response){
-                    $rootScope.listTransactions = response;
+                    $localStorage.listMinting = response;
+                    $rootScope.listMinting = response;
                 });
-        };
-
-        $scope.$watch('amtRecent', function(newVal){
-            console.log('amtRecent changed');
-            $scope.recentTransactions($scope.amtRecent)
-        });
-
-        $scope.refreshInfo();
+            $scope.refreshInfo();
+        }, true)
     }
 )
     .run(function($rootScope){
         $rootScope.app = {
             name: 'RaspberryPi Wallet',
-            version: '0.1.5 (09MAY2015)',
+            version: '0.1.5 (13MAY2015)',
             curTitle: ''
         };
     });

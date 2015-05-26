@@ -1,17 +1,25 @@
 'use strict';
 
 angular.module('PaycoinRpiWallet')
-    .controller('UnlockWalletCtrl', function ($scope, $rootScope, paycoind) {
+    .controller('UnlockWalletCtrl', function ($scope, $rootScope, $localStorage, paycoind) {
         $rootScope.app.curTitle = "Unlock Wallet";
 
         $scope.unlock = function() {
-            paycoind.unlock($scope.passphrase, $scope.duration)
+
+            if($scope.stakingOnly == null) {
+                $scope.stakingOnly = false;
+            }
+
+            $localStorage.chosenServer.locked = true;
+            $localStorage.chosenServer.stakingOnly = $scope.stakingOnly;
+
+            paycoind.unlock($scope.passphrase, $scope.duration, $scope.stakingOnly)
                 .then(function (response) {
                     console.log("unlock response");
                     console.log(response);
 
-                    if(response.error){
-                        $scope.error = response.error.msg;
+                    if(response.data.error){
+                        $scope.error = response.data.error.msg;
                     } else {
                         $scope.success = true;
                     }

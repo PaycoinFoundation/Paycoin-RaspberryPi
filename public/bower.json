@@ -13,7 +13,8 @@
     "ui-router":"*",
     "ui-utils":"*",
     "ngstorage":"*",
-    "startbootstrap-sb-admin-2":"*"
+    "startbootstrap-sb-admin-2":"*",
+    "angular-bootstrap":"*"
   },
   "devDependencies": {
     "angular-mocks": "^1.3.0",
