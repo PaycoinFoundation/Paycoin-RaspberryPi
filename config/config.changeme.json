@@ -3,7 +3,7 @@
     "name": "local-qt",
     "coin": "xpy",
     "server": "localhost",
-    "rpcuser": "bitcoinrpc",
+    "rpcuser": "paycoinrpc",
     "rpcpassword": "randomPasswordHere",
     "rpcport": "8999"
   }
