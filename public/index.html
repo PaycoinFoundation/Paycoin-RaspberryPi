@@ -73,10 +73,10 @@
                             <strong>Block Height:</strong> {{getInfo.blocks | number:0}}
                         </li>
                         <li>
-                            <strong>Money Supply:</strong> {{getInfo.moneysupply | number:6}}
+                            <strong>Money Supply:</strong> {{getInfo.moneysupply | number:0}}
                         </li>
                         <li>
-                            <strong>Difficulty:</strong> {{getInfo.difficulty | number:8}}
+                            <strong>Difficulty:</strong> {{getInfo.difficulty | number:0}}
                         </li>
                         <li ng-if="getInfo.unlocked_until > 0">
                             Locks {{getInfo.unlocked_until * 1000 | fromNow}}
