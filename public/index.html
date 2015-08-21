@@ -52,31 +52,40 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user" style="padding:10px; width:225px">
                         <li>
-                            <strong>Balance:</strong> {{getInfo.balance | number:6}}
+                            <strong>Balance:</strong>
+                            <div style="float:right">{{getInfo.balance | number:6}}</div>
                         </li>
                         <li>
-                            <strong>New Mint:</strong> {{getInfo.newmint | number:6}}
+                            <strong>New Mint:</strong>
+                            <div style="float:right">{{getInfo.newmint | number:6}}</div>
                         </li>
                         <li>
-                            <strong>Stake:</strong> {{getInfo.stake | number:6}}
+                            <strong>Stake:</strong>
+                            <div style="float:right">{{getInfo.stake | number:6}}</div>
                         </li>
                         <li>
-                            <strong>Wallet Version:</strong> {{getInfo.version }}
+                            <strong>Wallet Version:</strong>
+                            <div style="float:right">{{getInfo.version }}</div>
                         </li>
                         <li>
-                            <strong>Connections:</strong> {{getInfo.connections}}
+                            <strong>Connections:</strong>
+                            <div style="float:right">{{getInfo.connections}}</div>
                         </li>
                         <li>
-                            <strong>IP:</strong> {{getInfo.ip }}
+                            <strong>IP:</strong>
+                            <div style="float:right">{{getInfo.ip }}</div>
                         </li>
                         <li>
-                            <strong>Block Height:</strong> {{getInfo.blocks | number:0}}
+                            <strong>Block Height:</strong>
+                            <div style="float:right">{{getInfo.blocks | number:0}}</div>
                         </li>
                         <li>
-                            <strong>Money Supply:</strong> {{getInfo.moneysupply | number:0}}
+                            <strong>Money Supply:</strong>
+                            <div style="float:right">{{getInfo.moneysupply | number:0}}</div>
                         </li>
                         <li>
-                            <strong>Difficulty:</strong> {{getInfo.difficulty | number:0}}
+                            <strong>Difficulty:</strong>
+                            <div style="float:right">{{getInfo.difficulty | number:0}}</div>
                         </li>
                         <li ng-if="getInfo.unlocked_until > 0">
                             Locks {{getInfo.unlocked_until * 1000 | fromNow}}
