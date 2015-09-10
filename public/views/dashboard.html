@@ -134,7 +134,7 @@
                         <div class="clear" ng-if="transaction.category == 'receive'">
                             <div><span style="color:#006699"><b>{{transaction.amount}} Paycoin</b></span><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{transaction.label}}</span></div>
                             <div>
-                                <div class="text-ellipsis m-t-xs"><i>You have received Paycoin at </i><br><b>{{transaction.account}}<a ui-sref="addressinfo({address:transaction.address})">{{ transaction.address }}</a></b></div>
+                                <div class="text-ellipsis m-t-xs"><i>You have received Paycoin at </i><br><b>{{transaction.account}} <a ui-sref="addressinfo({address:transaction.address})">{{ transaction.address }}</a></b></div>
                             </div>
                         </div>
                         <div class="clear" ng-if="transaction.category == 'immature'">
