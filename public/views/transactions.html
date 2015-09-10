@@ -32,7 +32,7 @@
                                 <div class="clear" ng-if="trans.category == 'receive'">
                                     <div><span style="color:#006699"><b>{{trans.amount}} Paycoin</b></span><span class="label bg-light m-l-sm" style="background-color: #006699; color:#ffffff">{{trans.label}}</span></div>
                                     <div>
-                                        <div class="text-ellipsis m-t-xs"><i>You have received Paycoin at </i><br><b>({{trans.account}})<a ui-sref="addressinfo({address:trans.address})">{{ trans.address }}</a></b></div>
+                                        <div class="text-ellipsis m-t-xs"><i>You have received Paycoin at </i><br><b>{{trans.account}}<a ui-sref="addressinfo({address:trans.address})">{{ trans.address }}</a></b></div>
                                     </div>
                                 </div>
                                 <div class="clear" ng-if="trans.category == 'immature'">
